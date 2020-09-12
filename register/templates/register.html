@@ -1,0 +1,15 @@
+<style>
+    form{
+        color: black;
+        align-content: center;
+    }
+</style>
+{%block title%}Create an account{%endblock%}
+{% load crispy_forms_tags %}
+{%block body%}
+    <form method="POST" class="form-group">
+        {% csrf_token %}
+        {{form|crispy}}
+        <br><button type="submit">Register</button>
+    </form>
+{%endblock%}
