@@ -6,7 +6,7 @@
 	<h1>Movies similar to {{name}}:</h1>
 	<ul>
 		{% for item in Movies %}
-			<li>{{item}}</li>
+			<li><a href="/detail/{{item}}">{{item}}</a></li>
 		{% endfor %}
 	</ul>
 {% endblock %}
