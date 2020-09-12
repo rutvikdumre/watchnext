@@ -133,4 +133,4 @@ STATICFILES_STORAGE = 'whitenoise.django.GzipManifestStaticFilesStorage'
     # end }
 CRISPY_TEMPLATE_PACK='bootstrap4'
 LOGIN_REDIRECT_URL='/'
-ALLOWED_HOSTS = ['test-wn.herokuapp.com']
+ALLOWED_HOSTS = ['test-wn.herokuapp.com','127.0.0.1:8000','127.0.0.1']

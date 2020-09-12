@@ -1,0 +1,13 @@
+<form method="POST">
+    <input type="text" placeholder="Enter movie name" name="name" id="name">
+    <br><input type="submit">
+    {% block content %}
+    {% csrf_token %}
+	<h1>Movies similar to {{name}}:</h1>
+	<ul>
+		{% for item in Movies %}
+			<li>{{item}}</li>
+		{% endfor %}
+	</ul>
+{% endblock %}
+</form>
