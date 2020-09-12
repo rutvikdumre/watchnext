@@ -25,7 +25,7 @@ SECRET_KEY = '+7i$tae=xcp#0@36bwvk+s$!cib)z!6of=pdgf)pc4xeow-gz7'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+
 
 
 # Application definition
@@ -133,3 +133,4 @@ STATICFILES_STORAGE = 'whitenoise.django.GzipManifestStaticFilesStorage'
     # end }
 CRISPY_TEMPLATE_PACK='bootstrap4'
 LOGIN_REDIRECT_URL='/'
+ALLOWED_HOSTS = ['test-wn.herokuapp.com']
