@@ -91,6 +91,13 @@ def removetag(s):
             break
         alteredString+=s[i]
     return alteredString
+def searchMovie(movie_name_string):
+    ia = imdb.IMDb()
+    filmRes = ia.search_movie(movie_name_string)
+    filmDetails = []
+    for i in filmRes:
+        filmDetails.append({'name':i.get('title'),'year':i.get('year'),'picurl':i.get('cover url')})
+    return filmDetails[0:4]
 
 def get_details(movie_name):
     ia = imdb.IMDb()
@@ -113,4 +120,3 @@ def get_details(movie_name):
     filmPhotoUrl = filmObj.get('cover url')
     filmPhoto = Image.open(urllib.request.urlopen(filmPhotoUrl))
     return {'id':filmID,'title':filmTitle,'cast':cast,'image':filmPhoto,'picurl':filmPhotoUrl,'miniplot':filmPlot,'plot':filmSummary,'genres':filmGenres,'runtime':filmDuration,'year':filmYear,'rating':filmRating,'lang':filmLangCodes}
-
