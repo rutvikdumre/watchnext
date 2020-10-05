@@ -1,12 +1,12 @@
-{% block title %}
-Login Here
-{% endblock %}
-{% load crispy_forms_tags %}
+
+
+{% block title %}WatchNext{% endblock %}
+
 {% block content %}
-<form method="POST" class="form-group">
+  <h2>Login</h2>
+  <form method="post">
     {% csrf_token %}
-    {{form|crispy}}
-    <br>
-<button type="submit">Login</button>
-<br><a href='/register'>register</a>
+    {{ form.as_p }}
+    <button type="submit">Login</button>
+  </form>
 {% endblock %}
