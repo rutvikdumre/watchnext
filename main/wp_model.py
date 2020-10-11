@@ -103,20 +103,23 @@ def get_details(movie_name):
     ia = imdb.IMDb()
     filmID = ia.search_movie(movie_name)[0].movieID
     filmObj = ia.get_movie(filmID)
-    filmCast = filmObj.get('cast')[0:5]
-    cast = []
-    for i in filmCast:
-        cast.append(i['name'])
-    filmGenres = filmObj.get('genres')
-    filmTitle = filmObj.get('title')
-    filmYear = filmObj.get('year')
-    filmRating = filmObj.get('rating')
-    filmDuration = filmObj.get('runtimes')[0]+ " minutes"
-    plot = sorted(filmObj.get('plot'),key=len)[0:1]+sorted(filmObj.get('plot'),key=len)[-1:-2:-1]
-    #print(plot)
-    filmSummary = removetag(plot[1])
-    filmPlot = removetag(plot[0])
-    filmLangCodes = filmObj.get('language codes')[0].upper()
-    filmPhotoUrl = filmObj.get('cover url')
-    filmPhoto = Image.open(urllib.request.urlopen(filmPhotoUrl))
-    return {'id':filmID,'title':filmTitle,'cast':cast,'image':filmPhoto,'picurl':filmPhotoUrl,'miniplot':filmPlot,'plot':filmSummary,'genres':filmGenres,'runtime':filmDuration,'year':filmYear,'rating':filmRating,'lang':filmLangCodes}
+    listOfAttr = ['id','title','cast','cover url','plot','genres','runtimes','year','rating','language codes']
+    filmDict = {}
+    filmDict.update({'id':filmID})
+    for i in listOfAttr[1:]:
+        try:
+            if i == 'cast':
+                filmCast = filmObj.get('cast')[0:5]
+                cast = []
+                for j in filmCast:
+                    cast.append(j['name'])
+                filmDict.update({i:cast})
+                continue
+            if i == "plot":
+                plot = sorted(filmObj.get('plot'),key=len)[0]
+                filmDict.update({i:plot})
+                continue
+            filmDict.update({i:filmObj.get(i)})
+        except:
+            filmDict.update({i:f"{i} not found"})
+    return filmDict
