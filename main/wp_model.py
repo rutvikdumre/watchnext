@@ -93,7 +93,11 @@ def get_recommendation(name):
     print("Top 6 similar movies to "+movie_user_likes+" are:\n")
     recommended_movies = []
     for element in sorted_similar_movies:
-        recommended_movies.append(get_title_from_index(element[0]))
+        title=str(get_title_from_index(element[0]))
+        movies = ia.search_movie(title)
+        movie= movies[0]
+        url=movie.get('cover url')
+        recommended_movies.append([title,url])
         i=i+1
         if i>5:
             break

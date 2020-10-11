@@ -9,8 +9,10 @@
 	<ul>
         {% for i,j,k in Movies %}
             
-            <li><a href="/suggestions/{{i}}">{{i}} ({{j}})</a>
-            <a href="/suggestions/{{i}}"></a><img src={{k}} alt="image not found"></img></a></li>
+            <li>
+                <a href="/suggestions/{{i}}"><img src={{k}} alt="image not found"></img></a>
+                <a href="/suggestions/{{i}}">{{i}} ({{j}})</a>
+            </li>
 
 		{% endfor %}
 	</ul>

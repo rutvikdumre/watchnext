@@ -13,8 +13,9 @@ def home(response):
 	return render(response, "main/home.html", {})
 
 def suggest(response,name):
-	movie=get_recommendation(name)
-	return render(response, 'main/suggest.html', {'name':name, 'Movies':movie})
+	movies=get_recommendation(name)
+	
+	return render(response, 'main/suggest.html', {'name':name, 'Movies':movies})
 	
 def search(request):
 	if request.method=='POST':

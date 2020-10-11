@@ -4,8 +4,11 @@
     {% csrf_token %}
 	<h1>Movies similar to {{name}}:</h1>
 	<ul>
-		{% for item in Movies %}
-			<li><a href="/detail/{{item}}">{{item}}</a></li>
+		{% for i,k in Movies %}
+			<li>
+				<a href="/detail/{{i}}"><img src={{k}} alt="image not found"></img></a>
+				<a href="/detail/{{i}}">{{i}}</a>
+			</li>
 		{% endfor %}
 	</ul>
 {% endblock %}
