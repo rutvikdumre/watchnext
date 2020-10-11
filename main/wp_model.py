@@ -64,7 +64,22 @@ def get_recommendation(name):
         #print(movie.get('title'))
         #try:
         ind+=1
-        row_contents = [movie.get('title'), movie.get('cast')[0], movie.get('director')[0], movie.get('writer')[0], movie.get('countries')[0], movie.get('language codes')[0], movie.get('runtime')[0],movie.get('year'), movie.get('rating'),movie.get('genre')[0],ind]
+        features = ['cast','director','writer','countries','language codes','runtime','year','rating','genre']
+        
+        row_contents = [movie.get('title')]
+
+        for i in features:
+            try:
+                x=movie.get(i)
+                if isinstance(x, list):
+                    x=x[0] 
+                if(x=='' or x==None):
+                    x='null'
+            except:
+                x='null'
+            row_contents.append(x)
+        row_contents.append(ind)
+
         append_list_as_row('main/data_wp.csv', row_contents)
         df,cosine_sim=m_fit()
         movie_user_likes = str(movie)
