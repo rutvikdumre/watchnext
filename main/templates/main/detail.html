@@ -1,4 +1,4 @@
-
+{% extends 'main/base.html' %}
     {% block content %}
     {% csrf_token %}
     
@@ -7,16 +7,22 @@
     <br> <h2>{{title}}</h2><br> {{cast}} <br>{{plot}} <br>{{genres}} <br>{{runtimes}} <br>{{year}} <br>{{rating}} <br>{{lang}}
     <br>
     <h1>Movies similar to {{title}}:</h1>
-	<ul>
+	<br>
+	<ul style="list-style-type:none;">
 		{% for i,k in Movies %}
+			<br>
 			<li>
 				<a href="/detail/{{i}}"><img src={{k}} alt="image not found"></img></a>
 				<a href="/detail/{{i}}">{{i}}</a>
 			</li>
+			<hr>
 		{% endfor %}
-    </ul>
+	</ul>
     <br>
     <br>
+    <hr>
     <a href="/suggest">Get suggestions based on another movie</a><br><br>
     <a href="/search">Search a movie</a>
+    <br>
+    <br>
 {% endblock %}

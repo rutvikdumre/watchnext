@@ -1,12 +1,27 @@
-
-
-{% block title %}WatchNext{% endblock %}
+{% extends 'main/base.html' %}
+{% load crispy_forms_tags %}
+<style>
+    h1{
+        align-self: center;
+        align-items: center;
+        text-align: center;
+    }
+</style>
+{% block title %}
+Login
+{% endblock %}
 
 {% block content %}
-  <h2>Login</h2>
   <form method="post">
     {% csrf_token %}
     {{ form.as_p }}
     <button type="submit">Login</button>
   </form>
 {% endblock %}
+
+
+
+
+
+
+

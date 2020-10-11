@@ -1,15 +1,21 @@
+
+{% extends 'main/base.html' %}
 <form method="POST">
   
     {% block content %}
     {% csrf_token %}
 	<h1>Movies similar to {{name}}:</h1>
-	<ul>
+	<br>
+	<ul style="list-style-type:none;">
 		{% for i,k in Movies %}
+			<br>
 			<li>
 				<a href="/detail/{{i}}"><img src={{k}} alt="image not found"></img></a>
 				<a href="/detail/{{i}}">{{i}}</a>
 			</li>
+			<hr>
 		{% endfor %}
 	</ul>
-{% endblock %}
+
 </form>
+{% endblock %}

@@ -1,11 +1,15 @@
+{% extends 'main/base.html' %}
+{% block content %}
 <h1>Welcome {{uid}}!</h1>
+<br>
 <form method="POST">
-    <input type="text" placeholder="Enter movie name" name="name" id="name">
-    <br><input type="submit">
-
-    {% block content %}
     {% csrf_token %}
-	
+    <input type="text" placeholder="Enter movie name" name="name" id="name"><br>
+    <br>
+    <hr>
+    
+    <br><input type="submit">
+    
     <p>{{error}}</p>
-{% endblock %}
 </form>
+{% endblock %}
