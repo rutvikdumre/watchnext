@@ -25,7 +25,12 @@ def search(request):
 			names.append(i.values())
 			
 		return render(request,'main/search.html', {'name':name, 'Movies':tuple(names)})
-	return render(request,'main/search.html')
+	else:
+		username=None
+		if request.user.is_authenticated:
+			username = request.user.username
+			return render(request,'main/search.html',{'uid':username})
+		return render(request, 'main/index.html')
 def detail(response,id):
 	det= get_details(id)
 	url=det['picurl']
