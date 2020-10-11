@@ -23,8 +23,10 @@ def search(request):
 		names=[]
 		for i in results:
 			names.append(i.values())
-			
-		return render(request,'main/search.html', {'name':name, 'Movies':tuple(names)})
+		username=None
+		if request.user.is_authenticated:
+			username = request.user.username	
+		return render(request,'main/search.html', {'uid':username,'name':name, 'Movies':tuple(names)})
 	else:
 		username=None
 		if request.user.is_authenticated:
