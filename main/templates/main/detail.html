@@ -2,10 +2,37 @@
     {% block content %}
     {% csrf_token %}
     
-    <h1>Showing details for {{title}}:</h1>
-    <img src={{picurl}} alt="image not found"></img>
-    <br> <h2>{{title}}</h2><br> {{cast}} <br>{{plot}} <br>{{genres}} <br>{{runtimes}} <br>{{year}} <br>{{rating}} <br>{{lang}}
+    <h2>Showing details for {{title}}:</h2>
     <br>
+    <img src={{picurl}} alt="image not found"></img>
+    <br> <h1>{{title}}</h1>
+    <hr>
+    <br> 
+    <h3>Cast:</h3>
+    {% for i in cast %}
+    {{i}} |
+    {% endfor %}
+    <br>
+    <h3>Plot:</h3>
+    {{plot}}
+    <h3>Genres:</h3>
+    {% for i in genres %}
+    {{i}} |
+    {% endfor %}
+    <h3>Runtime:</h3> 
+    {% for i in runtimes %}
+    {{i}} 
+    {% endfor %}
+    <h3>Year: </h3>
+    {{year}}
+    <h3>Rating: </h3>
+    {{rating}}
+    <h3>Language: </h3>
+    {% for i in lang %}
+    {{i}} |
+    {% endfor %}
+    <br><br>
+    <hr>
     <h1>Movies similar to {{title}}:</h1>
 	<br>
 	<ul style="list-style-type:none;">
