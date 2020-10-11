@@ -1,3 +1,4 @@
+
 <h1>Welcome {{uid}}!</h1>
 <form method="POST">
     <input type="text" placeholder="Enter movie name" name="name" id="name">
@@ -5,7 +6,7 @@
     {% block content %}
     {% csrf_token %}
 
-	
+	<h2>{{msg}}</h2>
 	<ul>
         {% for i,j,k in Movies %}
             
@@ -15,6 +16,9 @@
             </li>
 
 		{% endfor %}
-	</ul>
+    </ul>
+    <br>
+    <p>{{error}}</p>
 {% endblock %}
+
 </form>

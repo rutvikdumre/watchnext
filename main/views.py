@@ -1,5 +1,5 @@
 # views.py
-from django.shortcuts import render
+from django.shortcuts import render,redirect
 from django.http import HttpResponse, HttpResponseRedirect
 from .models import MoviesToWatch, Movie
 from  .wp_model import get_recommendation, get_details, searchMovie
@@ -27,7 +27,7 @@ def search(request):
 		username=None
 		if request.user.is_authenticated:
 			username = request.user.username	
-		return render(request,'main/search.html', {'uid':username,'name':name, 'Movies':tuple(names)})
+		return render(request,'main/search.html', {'uid':username,'name':name, 'Movies':tuple(names),'msg':'Did you mean:'})
 	else:
 		username=None
 		if request.user.is_authenticated:
@@ -35,8 +35,26 @@ def search(request):
 			return render(request,'main/search.html',{'uid':username})
 		return render(request, 'main/index.html')
 def detail(response,id):
-	det= get_details(id)
-	movies=get_recommendation(det['title'])
-	det.update({'Movies':movies})
-	return render(response, 'main/detail.html',det)
-	
+	try:
+		det= get_details(id)
+		movies=get_recommendation(det['title'])
+		det.update({'Movies':movies})
+		return render(response, 'main/detail.html',det)
+	except:
+		username=None
+		if response.user.is_authenticated:
+			username = response.user.username
+			return redirect('/search')
+
+def searchDet(request):
+	if request.method=='POST':
+		name=request.POST.get('name')
+		return redirect('/detail/'+name)
+	else:
+		username=None
+		if request.user.is_authenticated:
+			username = request.user.username
+			return render(request,'main/search_movie.html',{'uid':username})
+		return render(request, 'main/index.html')
+def index(response):
+	return render(response,'main/index.html')

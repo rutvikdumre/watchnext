@@ -1,5 +1,4 @@
 {% extends 'main/base.html' %}
-{% load crispy_forms_tags %}
 <style>
     h1{
         align-self: center;
@@ -12,15 +11,7 @@ Home
 {% endblock %}
 
 {% block content %}
-<form method="POST" >
-    {% csrf_token %}
-    {{form|crispy}}
-    <br><button type="submit">Register</button>
-</form>
+<h1>watchNext</h1>
+<a href="/suggest">Get suggestions based on a movie I like</a><br>
+<a href="/search">Search details of a movie</a>
 {% endblock %}
-
-
-
-
-        
-
