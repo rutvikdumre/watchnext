@@ -36,6 +36,7 @@ def search(request):
 		return render(request, 'main/index.html')
 def detail(response,id):
 	det= get_details(id)
-	
+	movies=get_recommendation(det['title'])
+	det.update({'Movies':movies})
 	return render(response, 'main/detail.html',det)
 	
