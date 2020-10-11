@@ -35,6 +35,6 @@ def search(request):
 		return render(request, 'main/index.html')
 def detail(response,id):
 	det= get_details(id)
-	url=det['cover url']
-	return render(response, 'main/detail.html',{'det':det.items(),'url':url})
+	
+	return render(response, 'main/detail.html',det)
 	

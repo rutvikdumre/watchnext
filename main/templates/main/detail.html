@@ -1,12 +1,9 @@
 
     {% block content %}
     {% csrf_token %}
-    <img src={{url}} alt="image not found"></img>
-	<h1>Movies similar to {{name}}:</h1>
-	<ul>
-		{% for k,item in det %}
-			<li>{{item}}</li>
-		{% endfor %}
-    </ul>
-    <img src={{url}} alt="image not found"></img>
+    
+    <h1>Movies similar to {{name}}:</h1>
+    <img src={{picurl}} alt="image not found"></img>
+    <br> <h2>{{title}}</h2><br> {{cast}} <br>{{plot}} <br>{{genres}} <br>{{runtimes}} <br>{{year}} <br>{{rating}} <br>{{lang}}
+    
 {% endblock %}

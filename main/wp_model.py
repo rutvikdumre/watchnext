@@ -108,6 +108,14 @@ def get_details(movie_name):
     filmDict.update({'id':filmID})
     for i in listOfAttr[1:]:
         try:
+            if i=="language codes":
+                url=filmObj.get(i)
+                filmDict.update({'lang':url})
+                continue
+            if i=="cover url":
+                url=filmObj.get(i)
+                filmDict.update({'picurl':url})
+                continue
             if i == 'cast':
                 filmCast = filmObj.get('cast')[0:5]
                 cast = []
@@ -120,6 +128,7 @@ def get_details(movie_name):
                 filmDict.update({i:plot})
                 continue
             filmDict.update({i:filmObj.get(i)})
+            
         except:
             filmDict.update({i:f"{i} not found"})
     return filmDict
