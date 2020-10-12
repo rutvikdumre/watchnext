@@ -12,11 +12,15 @@ Login
 {% endblock %}
 
 {% block content %}
-
+<p><h1>Hi {{uid}},<h1>
+    <h4>This is <b>ranzol</b> your AI friend,<br> I am going to help you decide what to watchNext!</h4>
+    <hr>
+    <br>Tell me a movie that you like:
+  </p>
 <form method="POST">
     {% csrf_token %}
     <input type="text" placeholder="Enter movie name" name="name" id="name"><br>
-    <br><input type="submit">
+    <br><button class="btn btn-dark px-5" type="submit">Search</button>
 </form>
 <hr>
 <br>

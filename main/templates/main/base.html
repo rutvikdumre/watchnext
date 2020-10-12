@@ -2,6 +2,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{% block title %}<img src="{% static 'watchNext/4.png' %}" alt="My image">Watch Next{% endblock %}</title>
     <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
     <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap-theme.min.css">
@@ -11,9 +12,9 @@
 
 <body>
 
-  <div class="content container">
+  <div class="content container container-fluid ">
     <div class="page-header">
-      <h1><a href="/index"><img src="{% static '4.png' %}" alt="My image"></a></h1>
+      <h1><a href="/index"><img src="{% static '4.png' %}" alt="My image" style="width: 256px;"></a></h1>
   </div>
   <div class="row">
       <div class="col-md-8">
