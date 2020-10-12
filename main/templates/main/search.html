@@ -1,4 +1,5 @@
 {% extends 'main/base.html' %}
+{% load static %}
 {% load crispy_forms_tags %}
 <style>
     h1{
@@ -13,6 +14,7 @@ Login
 
 {% block content %}
 <p><h1>Hi {{uid}},<h1>
+    <img src="{% static 'giphy.gif' %}" alt="My image" style="height: 128px;">
     <h4>This is <b>ranzol</b> your AI friend,<br> I am going to help you decide what to watchNext!</h4>
     <hr>
     <br>Tell me a movie that you like:
