@@ -55,6 +55,10 @@ def searchDet(request):
 		if request.user.is_authenticated:
 			username = request.user.username
 			return render(request,'main/search_movie.html',{'uid':username})
-		return render(request, 'main/index.html')
+		return render(request, 'main/home.html')
 def index(response):
-	return render(response,'main/index.html')
+	if response.user.is_authenticated:
+		username = response.user.username
+		return render(response,'main/index.html',{'uid':username})
+	return render(response, 'main/home.html')
+	
