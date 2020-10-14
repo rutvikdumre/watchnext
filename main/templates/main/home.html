@@ -7,11 +7,10 @@
         /* BASIC */
 
         html {
-        background-image: url("https://images.unsplash.com/photo-1517604931442-7e0c8ed2963c?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1950&q=80");
         background-color: #56baed;
         background-repeat: no-repeat;
         background-size: cover;
-       
+        overflow-y:hidden;
         color:transparent;
         font-size:0;
         }
@@ -51,6 +50,7 @@
         width: 100%;
         min-height: 100%;
         padding: 20px;
+        position:fixed;
         }
 
         #formContent {
@@ -335,12 +335,28 @@
         align-content:center;
         width:50%;
         }
+        .logbutton:hover,.regbutton:hover{
+          background-color: #1c94cf;
+
+        }
+        #myVideo {
+  position: fixed;
+  right: 0;
+  bottom: 0;
+  width: 100%;
+
+}
+
         </style>
 <head>
-    <title>{% block title %}Watch Next{% endblock %}</title>
+    <title>{% block title %}watchNext{% endblock %}</title>
+    <link rel="shortcut icon" href="{% static 'header.png' %}" />
 </head>
 
 <body>
+  <video autoplay muted loop id="myVideo">
+    <source src="{% static 'background.mp4'%}" type="video/mp4">
+  </video>
   <div class="wrapper fadeInDown">
     <div id="formContent" style="border: 20px; border-color: white; border-style: solid;">
       <!-- Tabs Titles -->
@@ -352,9 +368,9 @@
       </div>
       <hr style="color:#56baed;">
       <div>
-        <button value="Register" class = "regbutton" onClick="location.href='/register';">Register</button>
+        <button value="Register" class = "regbutton" onClick="location.href='/register';" style="cursor: pointer;">Register</button>
         <br>
-        <button value="Login" class = "logbutton" onClick="location.href='/login';">Login</button>
+        <button value="Login" class = "logbutton" onClick="location.href='/login';"  style="cursor: pointer;">Login</button>
       </div>
       
       <!-- Login Form -->
