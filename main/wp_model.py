@@ -111,12 +111,16 @@ def removetag(s):
         alteredString+=s[i]
     return alteredString
 def searchMovie(movie_name_string):
-    ia = imdb.IMDb()
-    filmRes = ia.search_movie(movie_name_string)
-    filmDetails = []
-    for i in filmRes:
-        filmDetails.append({'name':i.get('title'),'year':i.get('year'),'picurl':i.get('cover url')})
-    return filmDetails[0:4]
+    ia=imdb.IMDb()
+    movS=ia.search_movie(movie_name_string)[0:4]
+    movIDList=[]
+    for i in range(len(movS)):
+        movIDList.append(movS[i].movieID)
+        movIDList[i]=ia.get_movie(movIDList[i])
+        movIDList[i]={'name':movIDList[i].get('title'),'year':movIDList[i].get('year'),'picurl':movIDList[i].get('cover url')}
+        if movIDList[i]['picurl']==None:
+            movIDList[i]['picurl']="https://watch--next.herokuapp.com/static/default.png"
+    return movIDList[0:4]
 
 def get_details(movie_name):
     ia = imdb.IMDb()
@@ -151,3 +155,5 @@ def get_details(movie_name):
         except:
             filmDict.update({i:f"{i} not found"})
     return filmDict
+
+#print(searchMovie('Dangal'))

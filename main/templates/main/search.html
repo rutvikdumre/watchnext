@@ -7,14 +7,18 @@
         align-items: center;
         text-align: center;
     }
+    img
+    {
+    background-image:url("{% static 'default.png' %}");
+    }
 </style>
 {% block title %}
-Login
+Search
 {% endblock %}
 
 {% block content %}
 <p><h1>Hi {{uid}},<h1>
-    <img src="{% static 'giphy.gif' %}" alt="My image" style="height: 128px;">
+    <img src="https://thumbs.gfycat.com/UnripeAdoredGrayreefshark.webp" alt="My image" style="height: 128px;">
     <h4>This is <b>ranzol</b> your AI friend,<br> I am going to help you decide what to watchNext!</h4>
     <hr>
     <br>Tell me a movie that you like:
@@ -31,7 +35,7 @@ Login
         {% for i,j,k in Movies %}
             <br>
             <li>
-                <a href="/suggestions/{{i}}"><img src={{k}} alt="image not found" ></img></a>
+                <a href="/suggestions/{{i}}"><img src="{{k}}"  alt="No image" ></img></a>
                 <a href="/suggestions/{{i}}">    {{i}} ({{j}})</a>
             </li>
             <hr>
