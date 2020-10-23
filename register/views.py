@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect
 from .forms import RegisterForm
-
+from django.contrib.auth import logout
 def register(response):
     if response.method=='POST':
         form=RegisterForm(response.POST)
@@ -11,4 +11,6 @@ def register(response):
         form=RegisterForm()
     return render(response, "register.html", {'form':form})
 
-# Create your views here.
+def logout_view(request):
+    logout(request)
+    return render(request, 'main/home.html', {'msg':'You have been logged out!'})
