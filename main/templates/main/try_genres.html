@@ -1,0 +1,549 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+	<title>WatchNext</title>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta http-equiv="X-UA-Compatible" content="ie=edge">
+	<link href='https://fonts.googleapis.com/css?family=Poppins' rel='stylesheet'>
+	<script src="https://kit.fontawesome.com/56b2a3c880.js" crossorigin="anonymous"></script>
+	<link rel="stylesheet" type="text/css" href="dashboard.css">
+	<style>
+		*
+		{
+			padding: 0;
+			margin: 0;
+			box-sizing: border-box;
+			
+		}
+
+		body
+		{
+			font-family: 'Poppins', sans-serif;
+			overflow-y: hidden;
+		}
+
+		/* BACKGROUND  */
+		.container
+		{
+			min-height: 100vh;
+			width: 100%;
+			background-color: #333;
+			background-image: linear-gradient(135deg, #333 0%, #242424 74%);
+			overflow-x: hidden;
+			transform-style: preserve-3d;
+		}
+
+		/* NAVBAR ON TOP  */
+		.navbar
+		{
+			position: fixed;
+			top: 0;
+			left: 0;
+			width: 100%;
+			z-index: 10;
+			height: 3rem;
+		}
+
+		/* FUTURE IS HERE SHIT  */
+		.menu
+		{
+			max-width: 72rem;
+			width: 100%;
+			margin: 0 auto;
+			padding: 0 2rem;
+			display: flex;
+			justify-content: space-between;
+			align-items: center;
+			color: #fff;
+		}
+
+		/* AVANLAKHE LOGO  */
+		.logo
+		{
+			font-size: 1.1rem;
+			font-weight: 600;
+			text-transform: uppercase;
+			letter-spacing: 2px;
+			line-height: 4rem;
+		}
+
+		.logo span
+		{
+			font-weight: 500;
+		}
+
+
+		/* THREE LINES FOR NAVBAR  */
+		.hamburger-menu
+		{
+			height: 4rem;
+			width: 3rem;
+			cursor: pointer;
+			display: flex;
+			align-items: center;
+			justify-content: flex-end;
+			
+		}
+
+		.bar
+		{
+			width: 1.9rem;
+			height: 1.5px;
+			border-radius: 2px;
+			background-color: #eee;
+			transition: 0.5s;
+			position: relative;
+		}
+
+		.bar:before, .bar:after
+		{
+			content: "";
+			position: absolute;
+			width: inherit;
+			height: inherit;
+			background-color: #eee;
+			transition: 0.5s;
+		}
+
+		.bar:before
+		{
+			transform: translateY(-9px);
+		}
+
+		.bar:after
+		{
+			transform: translateY(9px);
+		}
+
+		.check
+		{
+			width: 50%;
+		}
+
+		.main-home
+		{
+			position: relative;
+			width: 100%;
+			left: 0;
+			z-index: 5;
+			overflow: hidden;
+			transform-origin: left;
+			transform-style: preserve-3d;
+			transition: 0.5s;
+		}
+
+		header
+		{
+			min-height: 100vh;
+			width: 100%;
+			background: url("{% static 'bg1.jpg' %}") no-repeat top center / cover;
+			position: relative;
+		}
+
+		.overlay
+		{
+			position: absolute;
+			width: 100%;
+			height: 100%;
+			top: 0;
+			left: 0;
+			background-color: rgba(43,51,59,0.8);
+			display: flex;
+			justify-content: center;
+			align-items: center;
+			flex-direction: column;
+		}
+
+		.innerr
+		{
+			max-width: 35rem;
+			text-align: center;
+			color: #fff;
+			padding: 0 2rem;
+		}
+
+		.title
+		{
+			font-size: 2.7rem;
+		}
+
+		/* THREE LINES TURN  */
+		.container.active .bar 
+		{
+			transform: rotate(360deg);
+			background-color: transparent;
+		}
+
+		.container.active .bar:before 
+		{
+			transform: translateY(0) rotate(45deg);
+		}
+
+		.container.active .bar:after 
+		{
+			transform: translateY(0) rotate(-45deg);
+		}
+
+		.container.active .main-home
+		{
+			animation: main-animation 0.8s ease;
+			cursor: pointer;
+			transform: perspective(1300px) rotateY(20deg) translateZ(520px) scale(0.5);
+		}
+
+		@keyframes main-animation 
+		{
+			from 
+			{
+    			transform: translate(0);
+  			}
+  			to 	
+  			{
+    			transform: perspective(1300px) rotateY(20deg) translateZ(520px) scale(0.5);
+  			}
+		}
+
+		.shadow 
+		{
+			position: absolute;
+			width: 100%;
+			height: 100vh;
+			top: 0;
+			left: 0;
+			transform-style: preserve-3d;
+  			transform-origin: left;
+  			transition: 0.5s;
+  			background-color: white;
+		}
+
+		.shadow.one 
+		{
+  			z-index: 0;
+  			opacity: 1;
+  			background-color: #4e4e4e;
+		}
+
+		.shadow.two 
+		{
+  			z-index: -1;
+  			opacity: 1;
+  			background-color: #777777;
+		}
+
+		.container.active .shadow.one 
+		{
+			animation: shadow-one 0.6s ease-out;
+  			transform: perspective(1300px) rotateY(20deg) translateZ(215px) scale(0.5);
+		}
+
+		@keyframes shadow-one 
+		{
+			0% 
+			{
+			    transform: translate(0);
+			}
+
+			5%
+			{
+			    transform: perspective(1300px) rotateY(20deg) translateZ(510px) scale(0.5);
+			}
+
+			100% 
+			{
+			    transform: perspective(1300px) rotateY(20deg) translateZ(215px) scale(0.5);
+			}
+		}
+
+		.container.active .shadow.two 
+		{
+  			animation: shadow-two 0.6s ease-out;
+  			transform: perspective(1300px) rotateY(20deg) translateZ(120px) scale(0.5);
+		}
+
+		@keyframes shadow-two 
+		{
+  			0% 
+  			{
+    			transform: translate(0);
+  			}
+
+  			20% 
+  			{
+    			transform: perspective(1300px) rotateY(20deg) translateZ(510px) scale(0.5);
+  			}
+
+  			100% 
+  			{
+    			transform: perspective(1300px) rotateY(20deg) translateZ(120px) scale(0.5);
+  			}
+		}
+
+		.shadow.three
+		{
+  			z-index: 0;
+  			background-color: #292929;
+  			/*background-image: url("img/suggest1.jpg");
+  			background-size: cover;*/
+		}
+
+		.container.active .shadow.three 
+		{
+  			animation: shadow-three 0.6s ease-out;
+  			transform: perspective(1300px) rotateY(20deg) translateZ(320px) scale(0.5);
+		}
+
+		@keyframes shadow-three 
+		{
+  			0% 
+  			{
+    			transform: translate(0);
+  			}
+
+  			20% 
+  			{
+    			transform: perspective(1300px) rotateY(20deg) translateZ(510px) scale(0.5);
+  			}
+
+  			100% 
+  			{
+    			transform: perspective(1300px) rotateY(20deg) translateZ(320px) scale(0.5);
+  			}
+		}
+
+		.shadow.four
+		{
+  			z-index: 0;
+  			background-color: #000;
+  			/*background-image: url("img/genre2.jpg");
+  			background-size: cover;*/
+		}
+
+		.container.active .shadow.four 
+		{
+  			animation: shadow-four 0.6s ease-out;
+  			transform: perspective(1300px) rotateY(20deg) translateZ(420px) scale(0.5);
+		}
+
+		@keyframes shadow-four 
+		{
+  			0% 
+  			{
+    			transform: translate(0);
+  			}
+
+  			20% 
+  			{
+    			transform: perspective(1300px) rotateY(20deg) translateZ(510px) scale(0.5);
+  			}
+
+  			100% 
+  			{
+    			transform: perspective(1300px) rotateY(20deg) translateZ(420px) scale(0.5);
+  			}
+		}
+
+		.try1
+		{
+			text-decoration: none;
+			color: #fff;
+			transform: rotate(-270deg);
+  			transform-origin: center left;
+  			font-size: 3rem;
+		}
+
+		.buttons
+		{
+			display: flex;
+		}
+
+		#decobtn
+		{
+			width: 11.5rem;
+    		height:2.1rem;
+		    padding: 0.375rem 0.375rem 0;
+		    background: #eee;
+		    border-radius: 0.25rem;
+		    box-shadow: inset 0 1px 2px rgba(0,0,0,0.3);
+		}
+
+		.logo-main
+		{
+			font-size: 2.7rem;
+			color: #fff;
+			text-decoration: none;
+		}
+
+		.btn
+		{
+			display: flex;
+  			justify-content: space-around;
+		}
+
+		.btn li 
+		{
+			display: flex;
+			width: 100px;
+			height: 100px;
+			border-radius: 50%;
+			position: relative;
+			font-size: 50px;
+			transform: rotate(45deg);
+			overflow: hidden;
+			transition: all .5s ease-in;
+		}
+
+		.btn li:before 
+		{
+		  	content:'';
+		  	display: block;
+		  	width: 50%;
+		  	height: 100%;
+		  	position: absolute;
+		  	z-index: -2;
+		}
+
+		.btn li:after 
+		{
+		  	content:'';
+		  	display: block;
+		  	width: 100%;
+		  	height: 100%;
+		  	border-radius: 50%;
+		  	position: absolute;
+		  	top: 0;
+		  	right: 50%;
+		  	z-index: -3;
+		  	transition: all .5s ease-in-out;
+		  	opacity: .5;
+		}
+
+		.btn li a 
+		{
+		  	color: white;
+		  	margin: auto;
+		  	text-shadow: 0 2px 0 rgb(2,2,2);
+		  	transform: rotate(-45deg);
+		  	transition: all .5s ease-in;
+		}
+
+		.btn li:hover 
+		{
+  			transform: rotate(765deg);
+		}
+
+		.btn li:hover:after 
+		{
+		  	right: 0%;
+		}
+
+		.btn li:hover a 
+		{
+		   	transform: rotate(-765deg);
+		}
+
+		.btn li:nth-of-type(1):before,
+		.btn li:nth-of-type(1):after 
+		{
+		  	background: #292929;
+		}
+
+		.btn li:nth-of-type(2):before,
+		.btn li:nth-of-type(2):after 
+		{
+		  	background: #212121;
+		}
+
+		.btn li:nth-of-type(3):before,
+		.btn li:nth-of-type(3):after 
+		{
+		  	background: #161616;
+		}
+		.btn li:nth-of-type(4):before,
+		.btn li:nth-of-type(4):after 
+		{
+		  	background: #000000;
+		}
+
+	</style>
+</head>
+<body>
+	<div class="container">
+			<div class="navbar">
+				<div class="menu">
+					<h3 class="logo">Watch<span>Next</span></h3>
+					<div class="hamburger-menu">
+						<div class="bar"></div>
+					</div>
+				</div>			
+			</div>
+
+			<div class="main-container">
+
+				<div class="main-home">
+					<header>
+						<div class="overlay">
+							<div class="innerr">
+							<a href="https://watch--next.herokuapp.com/" class="logo-main"><h2 class="title">WATCHNEXT</h2></a>
+							</div>
+						</div>
+					</header>
+				</div>
+
+				<div class="shadow one">
+					<a href="/search" style="text-decoration: none">
+	        			<p class="try1">SEARCH BOX</p>
+	        		</a>
+				</div>
+	        	<!--<div class="shadow two">
+	        		<a href="demo1.html" style="text-decoration: none">
+	        			<p class="try1">CONTACT US</p>
+	        		</a>
+	        	</div>>-->
+	        	<div class="shadow three">
+	        		<a href="/searchgenre" style="text-decoration: none">
+	        			<p class="try1">GENRES</p>
+	        		</a>
+	        	</div>
+
+	        	<div class="shadow four">
+	        		<a href="/suggest" style="text-decoration: none">
+	        			<p class="try1">SUGGEST</p>
+	        		</a>
+	        	</div>
+
+			</div>
+	</div>
+
+	<script type="text/javascript">
+		const hamburger_menu = document.querySelector(".hamburger-menu");
+		const container = document.querySelector(".container");
+		hamburger_menu.addEventListener("click", () => 
+		{
+  			container.classList.toggle("active");
+		});
+
+	</script>
+
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
