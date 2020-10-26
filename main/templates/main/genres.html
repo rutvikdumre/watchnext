@@ -1,0 +1,22 @@
+{% extends 'main/base.html' %}
+{% block content %}
+<h1>Top 6 {{genre}} Movies!</h1>
+<br>
+<form method="POST">1
+    {% csrf_token %}
+    {% for i,j,k in data %}
+            <br>
+            <li>
+                <a href="/detail/{{i}}"><img src="{{k}}"  alt="No image" ></img></a>
+                <a href="/detail/{{i}}">    {{i}} ({{j}})</a>
+            </li>
+            <hr>
+		{% endfor %}
+</form>
+<br>
+    <hr>
+    <a href="/logout">Logout</a>
+    <br>
+
+    <hr>
+{% endblock %}

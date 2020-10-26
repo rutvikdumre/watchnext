@@ -7,6 +7,7 @@ import imdb
 from csv import writer
 import urllib.request
 from PIL import Image
+import os
 
 def append_list_as_row(file_name, list_of_elem):
     # Open file in append mode
@@ -90,7 +91,7 @@ def get_recommendation(name):
     sorted_similar_movies = sorted(similar_movies,key=lambda x:x[1],reverse=True)[1:]
 
     i=0
-    print("Top 6 similar movies to "+movie_user_likes+" are:\n")
+    #print("Top 6 similar movies to "+movie_user_likes+" are:\n")
     recommended_movies = []
     for element in sorted_similar_movies:
         title=str(get_title_from_index(element[0]))
@@ -156,4 +157,23 @@ def get_details(movie_name):
             filmDict.update({i:f"{i} not found"})
     return filmDict
 
-#print(searchMovie('Dangal'))
+def genreSearch(genre):
+    df = pd.read_csv('main/data_wp.csv')
+    listOfMovies = []
+    data = df[df.genre==genre]
+    ia = imdb.IMDb()
+    for i in range(6):
+        filmID = ia.search_movie(data.values[i][0])[0].movieID
+        filmObj = ia.get_movie(filmID)
+        listOfMovies.append({'name':filmObj.get('title'),'year':filmObj.get('year'),'picurl':filmObj.get('cover url')})
+        if listOfMovies[i]['picurl']==None:
+            listOfMovies[i]['picurl']="https://watch--next.herokuapp.com/static/default.png"
+    return listOfMovies
+    # for i in range(6):
+    #     filmID = ia.search_movie(data.values[i][0])[0].movieID
+    #     filmObj = ia.get_movie(filmID)
+    #     listOfMovies.append(filmObj)
+    #     listOfMovies[i]={'name':filmObj['title'],'year':filmObj['year'],'picurl':filmObj['cover url']}
+    #     if listOfMovies[i]['picurl']==None:
+    #         listOfMovies[i]['picurl']="https://watch--next.herokuapp.com/static/default.png"
+    # return listOfMovies
