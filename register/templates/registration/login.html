@@ -8,6 +8,7 @@
 /* BASIC */
 
 html {
+  background-image: url("{% static 'bg1.jpg' %}") ;
   background-color: #56baed;
   background-repeat: no-repeat;
   background-size: cover;
@@ -322,9 +323,7 @@ label
   
   {% block content %}
 	<body>
-    <video autoplay muted loop id="myVideo">
-      <source src="{% static 'background.mp4'%}" type="video/mp4">
-    </video>
+    
 			<div class="wrapper fadeInDown">
   				<div id="formContent">
     				<!-- Tabs Titles -->
