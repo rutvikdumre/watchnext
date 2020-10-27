@@ -4,11 +4,9 @@
 <br>
 <form method="POST">
     {% csrf_token %}
-    <input type="text" placeholder="Enter movie name" name="name" id="name"><br>
-    <br>
-    <hr>
+    <input type="text" placeholder="Enter movie name" name="name" id="name">
     
-    <br><button class="btn btn-dark px-5" type="submit">Search</button>
+    <br><button class="subbutton" type="submit">Search</button>
     
     <p>{{error}}</p>
 </form>
@@ -17,5 +15,5 @@
     <a href="/logout">Logout</a>
     <br>
     
-    <hr>
+    
 {% endblock %}
