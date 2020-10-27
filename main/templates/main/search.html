@@ -11,44 +11,69 @@
     {
     background-image:url("{% static 'default.png' %}");
     }
+    html{
+        background-color: #262626;
+        align-content: center;
+    }
+    body{
+        background-color: #262626;
+    }
+    ul{
+        padding: 0;
+        margin: 0;
+        text-align: center;
+        align-content: center;
+    }
+    li{
+        padding: 0;
+        margin: 0;
+        
+    }
+    
 </style>
 {% block title %}
 Search
 {% endblock %}
 
 {% block content %}
-<p><h1>Hi {{uid}},<h1>
-    <img src="https://thumbs.gfycat.com/UnripeAdoredGrayreefshark.webp" alt="My image" style="height: 128px;">
-    <h4>This is <b>ranzol</b> your AI friend,<br> I am going to help you decide what to watchNext!</h4>
-    <hr>
-    <br>Tell me a movie that you like:
-  </p>
-<form method="POST">
-    {% csrf_token %}
-    <input type="text" placeholder="Enter movie name" name="name" id="name"><br>
-    <br><button class="btn btn-dark px-5" type="submit">Search</button>
-</form>
-<hr>
-<br>
-<h2>{{msg}}</h2>
-	<ul style="list-style-type:none;">
-        {% for i,j,k in Movies %}
-            <br>
-            <li>
-                <a href="/suggestions/{{i}}"><img src="{{k}}"  alt="No image" ></img></a>
-                <a href="/suggestions/{{i}}">    {{i}} ({{j}})</a>
-            </li>
-            <hr>
-		{% endfor %}
-    </ul>
-    <br>
-    <p>{{error}}</p>
-    <br>
-    <hr>
-    <a href="/logout">Logout</a>
-    <br>
+<body>
+    <p><h1>Hi {{uid}},<h1>
+        <img src="https://thumbs.gfycat.com/UnripeAdoredGrayreefshark.webp" alt="My image" style="height: 128px;">
+        <h4>This is <b>ranzol</b> your AI friend,<br> I am going to help you decide what to watchNext!</h4>
+        
+        <br>Tell me a movie that you like:
+      </p>
+    <form method="POST">
+        {% csrf_token %}
+        <div>
+        <input type="text" placeholder="Enter movie name" name="name" id="name"><br>
+        <br><button  class="subbutton" type="submit" >Search</button>
+        </div>
+        
+    </form>
     
-    <hr>
+    <br>
+    <h2>{{msg}}</h2>
+        <ul style="list-style-type: none;list-style: none;padding: 0;margin: 0;">
+            {% for i,j,k in Movies %}
+                <br>
+                <li>
+                    <a href="/suggestions/{{i}}"><img src="{{k}}"  alt="No image" ></img></a><br>
+                    <a href="/suggestions/{{i}}">    {{i}} ({{j}})</a>
+                </li>
+                <br>
+            {% endfor %}
+        </ul>
+        <br>
+        <p>{{error}}</p>
+        <br>
+        <hr>
+        <a href="/logout">Logout</a>
+        <br>
+        
+        
+
+
 {% endblock %}
 
 

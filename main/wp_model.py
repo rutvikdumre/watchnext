@@ -97,6 +97,8 @@ def get_recommendation(name):
         title=str(get_title_from_index(element[0]))
         movies = ia.search_movie(title)
         movie= movies[0]
+        movie=movie.movieID
+        movie=ia.get_movie(movie)
         url=movie.get('cover url')
         recommended_movies.append([title,url])
         i=i+1

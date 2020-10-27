@@ -472,6 +472,12 @@
 		{
 		  	background: #000000;
 		}
+		li{
+			display: inline-block;
+		}
+		img{
+			width: 90px;
+		}
 
 	</style>
 </head>
@@ -494,15 +500,14 @@
 							<div class="innerr">
 							<a href="https://watch--next.herokuapp.com/" class="logo-main"><h2 class="title">WATCHNEXT</h2></a>
 							</div>
-							<div class="buttons">
-								<ul class="btn">
-									<li><a href="/searchgenre"><i class="fa fa-play-circle" aria-hidden="true"></i></a></li>
+							<div>
+								<ul style="list-style: none;">
 
-    								<li><a href="/suggest"><i class="fas fa-comments" aria-hidden="true"></i></a></li>
+									<li><a href='/search'><img src="{% static 'search.png' %}" alt="Not found" /></a></li>
 
-									<li><a href='/search'><i class="fas fa-search"></i></a></li>
+									<li><a href="/suggest"><img src="{% static 'wn.png' %}" alt="Not found"  /></a></li>
 
-									<li><a href="/logout"><i class="fas fa-sign-out-alt" aria-hidden="true"> </i></a></li>
+									<li><a href="/logout"><img src="{% static 'logout.png' %}" alt="Not found"/> </a></li>
 									
 								</ul>
 							</div>
