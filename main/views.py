@@ -42,7 +42,7 @@ def search(request):
 		username=None
 		if request.user.is_authenticated:
 			username = request.user.username	
-		return render(request,'main/search.html', {'uid':username,'name':name, 'Movies':tuple(names),'msg':'Did you mean:'})
+		return render(request,'main/search.html', {'uid':username,'name':name, 'Movies':tuple(names),'msg':'Search results for {}:'.format(name)})
 	else:
 		username=None
 		if request.user.is_authenticated:
