@@ -1,0 +1,601 @@
+{% load static %}
+
+<html>
+    <link rel = "icon" href = "{% static 'wn.png' %}" type = "image/x-icon"> 
+    <meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+<!--===============================================================================================-->	
+	<link rel="icon" type="image/png" href="images/icons/favicon.ico"/>
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="vendor/bootstrap/css/bootstrap.min.css">
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="fonts/font-awesome-4.7.0/css/font-awesome.min.css">
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="fonts/iconic/css/material-design-iconic-font.min.css">
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="vendor/animate/animate.css">
+<!--===============================================================================================-->	
+	<link rel="stylesheet" type="text/css" href="vendor/css-hamburgers/hamburgers.min.css">
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="vendor/animsition/css/animsition.min.css">
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="vendor/select2/select2.min.css">
+<!--===============================================================================================-->	
+	<link rel="stylesheet" type="text/css" href="vendor/daterangepicker/daterangepicker.css">
+<!--===============================================================================================-->
+	<!--link rel="stylesheet" type="text/css" href= "{% static 'css/util.css' %}">
+	<link rel="stylesheet" type="text/css" href= "{% static 'css/main.css' %}"{-->
+  <link rel="stylesheet" href="{% static 'styles/style.css' %}">
+  <!-- Including the bootstrap CDN -->
+  <link
+  rel="stylesheet"
+  href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css"
+  integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l"
+  crossorigin="anonymous"
+/>
+<script
+  src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
+  integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
+  crossorigin="anonymous"
+></script>
+<script
+  src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"
+  integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN"
+  crossorigin="anonymous"
+></script>
+<script
+  src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.min.js"
+  integrity="sha384-+YQ4JLhjyBLPDQt//I+STsc9iw4uQqACwlvpslubQzn4u2UU2UFM80nGisd026JF"
+  crossorigin="anonymous"
+></script>
+        <style>
+    @import url('https://fonts.googleapis.com/css?family=Poppins');
+
+        /* BASIC 
+
+        html {
+            background-image: url("http://images.unsplash.com/photo-1517604931442-7e0c8ed2963c?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=divat&fit=crop&w=1350&q=80") ;
+            background-repeat: no-repeat;
+            background-size: cover;
+            overflow-y: hidden;
+            background: linear-gradient(to bottom right,#2c2c5460, #34ace060, #ff525250, #b3393950);
+        }*/
+        small{
+            font-size: 0;
+        }
+
+        body {
+        
+        font-family: "Poppins", sans-serif;
+        height: 100vh;
+        }
+
+        a {
+        color: #92badd;
+        display:inline-block;
+        text-decoration: none;
+        font-weight: 400;
+        }
+
+        h2 {
+        text-align: center;
+        font-size: 16px;
+        font-weight: 600;
+        text-transdiv: uppercase;
+        display:inline-block;
+        margin: 40px 8px 10px 8px; 
+        color: #cccccc;
+        }
+
+
+
+        /* STRUCTURE 
+        #myVideo {
+  position: fixed;
+  right: 0;
+  bottom: 0;
+  width: 100%;
+
+}
+        .wrapper {
+        display: flex;
+        align-items: center;
+        flex-direction: column; 
+        justify-content: center;
+        width: 100%;
+        min-height: 100%;
+        padding: 2%;
+        position:fixed;
+        }
+
+        #divContent {
+        -webkit-border-radius: 10px 10px 10px 10px;
+        border-radius: 10px 10px 10px 10px;
+        background: #fff;
+        padding: 30px;
+        width: 90%;
+        max-width: 450px;
+        position: relative;
+        padding: 0px;
+        -webkit-box-shadow: 0 30px 60px 0 rgba(0,0,0,0.3);
+        box-shadow: 0 30px 60px 0 rgba(0,0,0,0.3);
+        text-align: center;
+        }
+
+        #divFooter {
+        background-color: #f6f6f6;
+        border-top: 1px solid #dce8f1;
+        padding: 25px;
+        text-align: center;
+        -webkit-border-radius: 0 0 10px 10px;
+        border-radius: 0 0 10px 10px;
+        }
+
+
+
+        /* TABS 
+
+        h2.inactive {
+        color: #cccccc;
+        }
+
+        h2.active {
+        color: #0d0d0d;
+        border-bottom: 2px solid #5fbae9;
+        }
+
+
+
+        
+
+        /* ANIMATIONS */
+
+        /* Simple CSS3 Fade-in-down Animation 
+        .fadeInDown {
+        -webkit-animation-name: fadeInDown;
+        animation-name: fadeInDown;
+        -webkit-animation-duration: 1s;
+        animation-duration: 1s;
+        -webkit-animation-fill-mode: both;
+        animation-fill-mode: both;
+        }
+
+        @-webkit-keyframes fadeInDown {
+        0% {
+            opacity: 0;
+            -webkit-transdiv: translate3d(0, -100%, 0);
+            transdiv: translate3d(0, -100%, 0);
+        }
+        100% {
+            opacity: 1;
+            -webkit-transdiv: none;
+            transdiv: none;
+        }
+        }
+
+        @keyframes fadeInDown {
+        0% {
+            opacity: 0;
+            -webkit-transdiv: translate3d(0, -100%, 0);
+            transdiv: translate3d(0, -100%, 0);
+        }
+        100% {
+            opacity: 1;
+            -webkit-transdiv: none;
+            transdiv: none;
+        }
+        }
+
+        /* Simple CSS3 Fade-in Animation */
+        @-webkit-keyframes fadeIn { from { opacity:0; } to { opacity:1; } }
+        @-moz-keyframes fadeIn { from { opacity:0; } to { opacity:1; } }
+        @keyframes fadeIn { from { opacity:0; } to { opacity:1; } }
+
+        .fadeIn {
+        opacity:0;
+        -webkit-animation:fadeIn ease-in 1;
+        -moz-animation:fadeIn ease-in 1;
+        animation:fadeIn ease-in 1;
+
+        -webkit-animation-fill-mode:forwards;
+        -moz-animation-fill-mode:forwards;
+        animation-fill-mode:forwards;
+
+        -webkit-animation-duration:1s;
+        -moz-animation-duration:1s;
+        animation-duration:1s;
+        }
+
+        .fadeIn.first {
+        -webkit-animation-delay: 0.4s;
+        -moz-animation-delay: 0.4s;
+        animation-delay: 0.4s;
+        }
+
+        .fadeIn.second {
+        -webkit-animation-delay: 0.6s;
+        -moz-animation-delay: 0.6s;
+        animation-delay: 0.6s;
+        }
+
+        .fadeIn.third {
+        -webkit-animation-delay: 0.8s;
+        -moz-animation-delay: 0.8s;
+        animation-delay: 0.8s;
+        }
+
+        .fadeIn.fourth {
+        -webkit-animation-delay: 1s;
+        -moz-animation-delay: 1s;
+        animation-delay: 1s;
+        }
+
+        /*Simple CSS3 Fade-in Animation */
+        .underlineHover:after {
+        display: block;
+        left: 0;
+        bottom: -10px;
+        width: 0;
+        height: 2px;
+        background-color: #56baed;
+        content: "";
+        transition: width 0.2s;
+        }
+
+        .underlineHover:hover {
+        color: #0d0d0d;
+        }
+
+        .underlineHover:hover:after{
+        width: 100%;
+        }
+
+
+
+        /*OTHERS */
+
+        *:focus {
+            outline: none;
+        } 
+
+        #icon {
+        width:60%;
+        }
+
+        * {
+        box-sizing: border-box;
+        }
+       
+
+/*//////////////////////////////////////////////////////////////////
+[ FONT ]*/
+
+@font-face {
+  font-family: SourceSansPro-Regular;
+  src: url('../fonts/source-sans-pro/SourceSansPro-Regular.ttf'); 
+}
+
+@font-face {
+  font-family: SourceSansPro-Bold;
+  src: url('../fonts/source-sans-pro/SourceSansPro-Bold.ttf'); 
+}
+
+@font-face {
+  font-family: SourceSansPro-SemiBold;
+  src: url('../fonts/source-sans-pro/SourceSansPro-SemiBold.ttf'); 
+}
+
+@font-face {
+  font-family: JosefinSans-Bold;
+  src: url('../fonts/JosefinSans/JosefinSans-Bold.ttf'); 
+}
+
+/*//////////////////////////////////////////////////////////////////
+[ RESTYLE TAG ]*/
+
+* {
+	margin: 0px; 
+	padding: 0px; 
+	box-sizing: border-box;
+}
+
+body, html {
+	height: 100%;
+	font-family: SourceSansPro-Regular, sans-serif;
+}
+
+/*---------------------------------------------*/
+a {
+	font-family: SourceSansPro-Regular;
+	font-size: 14px;
+	line-height: 1.7;
+	color: #666666;
+	margin: 0px;
+	transition: all 0.4s;
+	-webkit-transition: all 0.4s;
+  -o-transition: all 0.4s;
+  -moz-transition: all 0.4s;
+}
+
+a:focus {
+	outline: none !important;
+}
+
+a:hover {
+	text-decoration: none;
+}
+
+/*---------------------------------------------*/
+h1,h2,h3,h4,h5,h6 {
+	margin: 0px;
+}
+
+p {
+	font-family: SourceSansPro-Regular;
+	font-size: 14px;
+	line-height: 1.7;
+	color: #666666;
+	margin: 0px;
+}
+
+ul, li {
+	margin: 0px;
+	list-style-type: none;
+  text-align: center;
+}
+
+/*---------------------------------------------*/
+button {
+	outline: none !important;
+	border: none;
+	background: transparent;
+}
+
+button:hover {
+	cursor: pointer;
+}
+
+iframe {
+	border: none !important;
+}
+
+
+
+/*//////////////////////////////////////////////////////////////////
+[ Utility ]*/
+.txt1 {
+  font-family: SourceSansPro-Regular;
+  font-size: 16px;
+  line-height: 1.4;
+  color: #999999;
+}
+
+.txt2 {
+  font-family: SourceSansPro-Regular;
+  font-size: 16px;
+  line-height: 1.4;
+  color: #4b2354;
+}
+
+.hov1:hover {
+  color: #4b2354;
+  text-decoration: underline;
+}
+
+
+/*//////////////////////////////////////////////////////////////////
+[ login ]*/
+
+.container-genre {
+  width: 100%;  
+  min-height: 100vh;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -moz-box;
+  display: -ms-flexbox;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  padding: 15px;
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
+  position: relative;
+  z-index: 1;
+}
+
+.container-genre::before {
+  content: "";
+  display: block;
+  position: absolute;
+  z-index: -1;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  /*background: rgba(0, 0, 0, 0.5);*/
+  background: linear-gradient(to bottom right,#2c2c5460, #34ace060, #ff525250, #b3393950);
+  pointer-events: none;
+}
+
+.wrap-genre {
+  width: 390px;
+  background: #fff;
+  border-radius: 10px;
+  overflow: hidden;
+
+  box-shadow: 0 5px 30px 0px rgba(0, 0, 0, 0.5);
+}
+
+
+/*==================================================================
+[ div ]*/
+
+.genre-div {
+  width: 100%;
+}
+
+.genre-div-title {
+  display: block;
+  font-family: Poppins;
+  font-size: 30px;
+  color: #2c2c54;
+  line-height: 1.2;
+  text-align: center;
+}
+
+/*------------------------------------------------------------------
+[ Input ]*/
+
+.wrap-input100 {
+  width: 100%;
+  position: relative;
+  background-color: #fff;
+  border-radius: 20px;
+}
+
+.input100 {
+  font-family: SourceSansPro-Bold;
+  font-size: 16px;
+  color: #2c2c54;
+  line-height: 1.2;
+
+  display: block;
+  width: 100%;
+  height: 62px;
+  background: transparent;
+  padding: 0 20px 0 23px;
+}
+
+
+
+/*------------------------------------------------------------------
+[ Button ]*/
+.container-genre-div-btn {
+  width: 100%;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -moz-box;
+  display: -ms-flexbox;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.genre-div-btn {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -moz-box;
+  display: -ms-flexbox;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 0 20px;
+  min-width: 160px;
+  height: 50px;
+  background-color: #2c2c54;
+  border-radius: 25px;
+
+  font-family: Poppins;
+  font-size: 14px;
+  color: #fff;
+  line-height: 1.2;
+  text-transdiv: uppercase;
+
+  -webkit-transition: all 0.4s;
+  -o-transition: all 0.4s;
+  -moz-transition: all 0.4s;
+  transition: all 0.4s;
+
+  box-shadow: 0 10px 30px 0px #2c2c5460;
+}
+
+.genre-div-btn:hover {
+  background-color: #3e3e66;
+  box-shadow: 0 10px 30px 0px #3e3e6680;
+}
+
+/*//////////////////////////////////////////////////////////////////
+[ Responsive ]*/
+
+@media (max-width: 480px) {
+  .wrap-genre {
+    padding-left: 15px;
+    padding-right: 15px;
+  }
+}
+        </style>
+    <body>
+      <div class="title-container">
+
+        <!--Navigation-->
+        <nav class="navbar navbar-expand-sm sticky-top navbar-dark navigation" style="background-color: #262626; padding: 1% 2%; margin: 0 0;">
+  
+          <!--Brand-->
+          <a class="navbar-brand" href="/">
+            <img src="{% static 'images/watchnext.png' %}" height="40vh" alt="" />
+          </a>
+  
+          <!--Toggle-->
+  
+          <button
+            class="navbar-toggler"
+            type="button"
+            data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent"
+            aria-expanded="false"
+            aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+  
+          <!--Nav-Links-->
+  
+          <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav ml-auto">
+              <li class="nav-item">
+                <a class="nav-link" href="">Sign Up</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="">Login</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="">Top Charts</a>
+              </li>
+            </ul>
+          </div>
+        </nav>
+  
+        <div class="container-genre" style="background-image: url({% static 'images/cover_comedy.jpg' %});">
+            <div class="wrap-genre p-l-55 p-r-55 p-t-80 p-b-30 " style="width: 75vw;">
+                <div class="card genre-div" style="padding:%;">
+                    <span class="genre-div-title p-b-37" style="margin: 2.5% 2%;">
+                        {{genre}}
+                    </span>
+                    <div class="row" style="padding: 3% 3%;">
+                      {% for i,j in dict1.items%}
+                      <div class="card col-lg-2 col-md-4 col-sm-6 col-xs-12" style="text-align: center;">
+                        <img src="{{j}}" class="card-img-top" alt="..." style="margin-top: 2%;">
+                        <div class="card-body">
+                          <a href="/detail/{{i}}"class="card-text">{{i}}</a>
+                        </div>
+                      </div>
+                      {% endfor %}
+                    </div>
+                    
+                    
+                    <br>
+                </div>
+    
+            </div>
+        </div>
+        
+    </body>
+</html>
+
+
+
+
+
+

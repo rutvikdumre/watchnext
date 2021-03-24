@@ -2,385 +2,143 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <link rel = "icon" href =  
-"{% static 'wn.png' %}" 
-        type = "image/x-icon"> 
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>watchNext</title>
+
+    <!-- Including css -->
+    <link rel="stylesheet" href="{% static 'styles/style.css' %}">
+
+    <!-- fontawesome -->
+  <script src="https://kit.fontawesome.com/4cf62cb5b0.js" crossorigin="anonymous"></script>
+
+    <!-- Including the bootstrap CDN -->
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css"
+      integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l"
+      crossorigin="anonymous"
+    />
+    <script
+      src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
+      integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"
+      integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.min.js"
+      integrity="sha384-+YQ4JLhjyBLPDQt//I+STsc9iw4uQqACwlvpslubQzn4u2UU2UFM80nGisd026JF"
+      crossorigin="anonymous"
+    ></script>
+
+    <!-- Google Fonts-->
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@100;600;&display=swap" rel="stylesheet">
+
+
   </head>
-  <style>
-    @import url('https://fonts.googleapis.com/css?family=Poppins');
 
-        /* BASIC */
+  <body>
 
-        html {
-        background-image: url("{% static 'bg1.jpg' %}") ;
-        background-color: #56baed;
-        background-repeat: no-repeat;
-        background-size: cover;
-        overflow-y:hidden;
-        color:transparent;
-        font-size:0;
-        }
+    <div class="title-container">
 
-        body {
-        
-        font-family: "Poppins", sans-serif;
-        height: 100vh;
-        }
+      <!--Navigation-->
+      <nav class="navbar navbar-expand-sm sticky-top navbar-dark navigation" style="background-color: #262626; padding: 1% 2%; margin: 0 0;">
 
-        a {
-        color: #92badd;
-        display:inline-block;
-        text-decoration: none;
-        font-weight: 400;
-        }
+        <!--Brand-->
+        <a class="navbar-brand" href="">
+          <img src="{% static 'images/watchnext.png' %}" height="40vh" alt="" />
+        </a>
 
-        h2 {
-        text-align: center;
-        font-size: 16px;
-        font-weight: 600;
-        text-transform: uppercase;
-        display:inline-block;
-        margin: 40px 8px 10px 8px; 
-        color: #cccccc;
-        }
+        <!--Toggle-->
 
+        <button
+          class="navbar-toggler"
+          type="button"
+          data-toggle="collapse"
+          data-target="#navbarSupportedContent"
+          aria-controls="navbarSupportedContent"
+          aria-expanded="false"
+          aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
 
+        <!--Nav-Links-->
 
-        /* STRUCTURE */
-
-        .wrapper {
-        display: flex;
-        align-items: center;
-        flex-direction: column; 
-        justify-content: center;
-        width: 100%;
-        min-height: 100%;
-        padding: 20px;
-        position:fixed;
-        }
-
-        #formContent {
-        -webkit-border-radius: 10px 10px 10px 10px;
-        border-radius: 10px 10px 10px 10px;
-        background: #fff;
-        padding: 30px;
-        width: 90%;
-        max-width: 450px;
-        position: relative;
-        padding: 0px;
-        -webkit-box-shadow: 0 30px 60px 0 rgba(0,0,0,0.3);
-        box-shadow: 0 30px 60px 0 rgba(0,0,0,0.3);
-        text-align: center;
-        }
-
-        #formFooter {
-        background-color: #f6f6f6;
-        border-top: 1px solid #dce8f1;
-        padding: 25px;
-        text-align: center;
-        -webkit-border-radius: 0 0 10px 10px;
-        border-radius: 0 0 10px 10px;
-        }
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+          <ul class="navbar-nav ml-auto">
+            <li class="nav-item">
+              <a class="nav-link" href="">Sign Up</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="">Login</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="">Top Charts</a>
+            </li>
+          </ul>
+        </div>
+      </nav>
 
 
-
-        /* TABS */
-
-        h2.inactive {
-        color: #cccccc;
-        }
-
-        h2.active {
-        color: #0d0d0d;
-        border-bottom: 2px solid #5fbae9;
-        }
-
-
-
-        /* FORM TYPOGRAPHY*/
-
-        input[type=button], input[type=submit], input[type=reset]
-        {
-        background-color: #56baed;
-        border: none;
-        color: white;
-        padding: 15px 80px;
-        text-align: center;
-        text-decoration: none;
-        display: inline-block;
-        text-transform: uppercase;
-        font-size: 13px;
-        -webkit-box-shadow: 0 10px 30px 0 rgba(95,186,233,0.4);
-        box-shadow: 0 10px 30px 0 rgba(95,186,233,0.4);
-        -webkit-border-radius: 5px 5px 5px 5px;
-        border-radius: 5px 5px 5px 5px;
-        margin: 5px 20px 40px 20px;
-        -webkit-transition: all 0.3s ease-in-out;
-        -moz-transition: all 0.3s ease-in-out;
-        -ms-transition: all 0.3s ease-in-out;
-        -o-transition: all 0.3s ease-in-out;
-        transition: all 0.3s ease-in-out;
-        }
-
-        input[type=button]:hover, input[type=submit]:hover, input[type=reset]:hover  {
-        background-color: #39ace7;
-        }
-
-        input[type=button]:active, input[type=submit]:active, input[type=reset]:active  {
-        -moz-transform: scale(0.95);
-        -webkit-transform: scale(0.95);
-        -o-transform: scale(0.95);
-        -ms-transform: scale(0.95);
-        transform: scale(0.95);
-        }
-
-        input[type=text] , input[type=password],input[type=email]  {
-        background-color: #f6f6f6;
-        border: none;
-        color: #0d0d0d;
-        padding: 15px 32px;
-        text-align: center;
-        text-decoration: none;
-        display: inline-block;
-        font-size: 16px;
-        margin: 5px;
-        width: 85%;
-        border: 2px solid #f6f6f6;
-        -webkit-transition: all 0.5s ease-in-out;
-        -moz-transition: all 0.5s ease-in-out;
-        -ms-transition: all 0.5s ease-in-out;
-        -o-transition: all 0.5s ease-in-out;
-        transition: all 0.5s ease-in-out;
-        -webkit-border-radius: 5px 5px 5px 5px;
-        border-radius: 5px 5px 5px 5px;
-        }
-
-        input[type=text]:focus {
-        background-color: #fff;
-        border-bottom: 2px solid #5fbae9;
-        }
-
-        input[type=text]:placeholder {
-        color: #cccccc;
-        }
-
-
-
-        /* ANIMATIONS */
-
-        /* Simple CSS3 Fade-in-down Animation */
-        .fadeInDown {
-        -webkit-animation-name: fadeInDown;
-        animation-name: fadeInDown;
-        -webkit-animation-duration: 1s;
-        animation-duration: 1s;
-        -webkit-animation-fill-mode: both;
-        animation-fill-mode: both;
-        }
-
-        @-webkit-keyframes fadeInDown {
-        0% {
-            opacity: 0;
-            -webkit-transform: translate3d(0, -100%, 0);
-            transform: translate3d(0, -100%, 0);
-        }
-        100% {
-            opacity: 1;
-            -webkit-transform: none;
-            transform: none;
-        }
-        }
-
-        @keyframes fadeInDown {
-        0% {
-            opacity: 0;
-            -webkit-transform: translate3d(0, -100%, 0);
-            transform: translate3d(0, -100%, 0);
-        }
-        100% {
-            opacity: 1;
-            -webkit-transform: none;
-            transform: none;
-        }
-        }
-
-        /* Simple CSS3 Fade-in Animation */
-        @-webkit-keyframes fadeIn { from { opacity:0; } to { opacity:1; } }
-        @-moz-keyframes fadeIn { from { opacity:0; } to { opacity:1; } }
-        @keyframes fadeIn { from { opacity:0; } to { opacity:1; } }
-
-        .fadeIn {
-        opacity:0;
-        -webkit-animation:fadeIn ease-in 1;
-        -moz-animation:fadeIn ease-in 1;
-        animation:fadeIn ease-in 1;
-
-        -webkit-animation-fill-mode:forwards;
-        -moz-animation-fill-mode:forwards;
-        animation-fill-mode:forwards;
-
-        -webkit-animation-duration:1s;
-        -moz-animation-duration:1s;
-        animation-duration:1s;
-        }
-
-        .fadeIn.first {
-        -webkit-animation-delay: 0.4s;
-        -moz-animation-delay: 0.4s;
-        animation-delay: 0.4s;
-        }
-
-        .fadeIn.second {
-        -webkit-animation-delay: 0.6s;
-        -moz-animation-delay: 0.6s;
-        animation-delay: 0.6s;
-        }
-
-        .fadeIn.third {
-        -webkit-animation-delay: 0.8s;
-        -moz-animation-delay: 0.8s;
-        animation-delay: 0.8s;
-        }
-
-        .fadeIn.fourth {
-        -webkit-animation-delay: 1s;
-        -moz-animation-delay: 1s;
-        animation-delay: 1s;
-        }
-
-        label
-        {
-        color:black;
-        font-family: "Poppins", sans-serif;
-        font-size:16;
-        }
-
-        /* Simple CSS3 Fade-in Animation */
-        .underlineHover:after {
-        display: block;
-        left: 0;
-        bottom: -10px;
-        width: 0;
-        height: 2px;
-        background-color: #56baed;
-        content: "";
-        transition: width 0.2s;
-        }
-
-        .underlineHover:hover {
-        color: #0d0d0d;
-        }
-
-        .underlineHover:hover:after{
-        width: 100%;
-        }
-
-
-
-        /* OTHERS */
-
-        *:focus {
-            outline: none;
-        } 
-
-        #icon {
-        width:60%;
-        }
-
-        * {
-        box-sizing: border-box;
-        }
-        .regbutton
-        {
-        background-color: #56baed;
-        border: none;
-        color: white;
-        padding-top: 15px;
-        padding-bottom: 15px;
-        text-align: center;
-        text-decoration: none;
-        display: inline-block;
-        text-transform: uppercase;
-        font-size: 13px;
-        -webkit-box-shadow: 0 10px 30px 0 rgba(95,186,233,0.4);
-        box-shadow: 0 10px 30px 0 rgba(95,186,233,0.4);
-        -webkit-border-radius: 5px 5px 5px 5px;
-        border-radius: 5px 5px 5px 5px;
-        margin: 30px 20px 20px 20px;
-        -webkit-transition: all 0.3s ease-in-out;
-        -moz-transition: all 0.3s ease-in-out;
-        -ms-transition: all 0.3s ease-in-out;
-        -o-transition: all 0.3s ease-in-out;
-        transition: all 0.3s ease-in-out;
-        line-height: 10px;
-        align-content:center;
-        width:50%;
-        }
-        .logbutton
-        {
-          background-color: #56baed;
-        border: none;
-        color: white;
-        padding: 15px 80px;
-        text-align: center;
-        text-decoration: none;
-        display: inline-block;
-        text-transform: uppercase;
-        font-size: 13px;
-        -webkit-box-shadow: 0 10px 30px 0 rgba(95,186,233,0.4);
-        box-shadow: 0 10px 30px 0 rgba(95,186,233,0.4);
-        -webkit-border-radius: 5px 5px 5px 5px;
-        border-radius: 5px 5px 5px 5px;
-        margin: 10px 20px 30px 20px;
-        -webkit-transition: all 0.3s ease-in-out;
-        -moz-transition: all 0.3s ease-in-out;
-        -ms-transition: all 0.3s ease-in-out;
-        -o-transition: all 0.3s ease-in-out;
-        transition: all 0.3s ease-in-out;
-        line-height: 10px;
-        align-content:center;
-        width:50%;
-        }
-        .logbutton:hover,.regbutton:hover{
-          background-color: #1c94cf;
-
-        }
-        #myVideo {
-  position: fixed;
-  right: 0;
-  bottom: 0;
-  width: 100%;
-
-}
-
-        </style>
-<head>
-    <title>{% block title %}watchNext{% endblock %}</title>
-    <link rel="shortcut icon" href="{% static 'header.png' %}" />
-</head>
-
-<body>
-  <!--<video autoplay muted loop id="myVideo">
-    <source src="{% static 'background.mp4'%}" type="video/mp4">
-  </video>-->
-  <div class="wrapper fadeInDown">
-    <div id="formContent" style="border: 20px; border-color: white; border-style: solid;">
-      <!-- Tabs Titles -->
-
-
-      <!-- Icon -->
-      <div class="fadeIn first">
-            <img src="{% static '4.png' %}" id="icon" alt="User Icon" style="margin-top: 15px; margin-bottom: 15px;" />
-      </div>
-      <hr style="color:#56baed;">
-      <div>
-        <button value="Register" class = "regbutton" onClick="location.href='/register';" style="cursor: pointer;">Register</button>
-        <br>
-        <button value="Login" class = "logbutton" onClick="location.href='/login';"  style="cursor: pointer;">Login</button>
-      </div>
-      <p style="font-size: 12px;color: red;">{{msg}}</p>
-      <!-- Login Form -->
-      </div>
+      <!-- Title Content -->
+        <div class="row title-content" style="margin: 0 0;">
+          <!--video autoplay muted loop id="myVideo">
+            <source src="images/covervideo.mp4" type="video/mp4">
+          </video-->
+          <div class="overlay">
+            <div class="col-lg-6 text-content" style="margin: 40vh 7.5% auto 7.5%; padding: 2% 2%;">
+              <h1>Find what to watch next.</h1>
+              <button type="button" class="btn btn-dark btn-lg downloadbtn" value="Login" onClick="location.href='/login';"><i class="fas fa-sign-in-alt"></i> Login </button>
+              <button type="button" class="btn btn-light btn-lg downloadbtn" value="Register" onClick="location.href='/register';"><i class="fas fa-users"></i> Signup </button>
+            </div>
+            <p style="font-size: 12px;color: red;">{{msg}}</p> 
+          </div>          
+        </div>
     </div>
-</body>
+
+
+  
+  <!-- Genre-->
+    
+    <div class="top-charts-container">
+      <div class="row top-charts-bg">
+        <div class="col-lg-2 col-md-4 col-sm-6 col-xs-12 genre">
+          <a href="topcharts/Action"><img src="images/genre1.jpg" class="genre-img overlay"></a>
+          <div class="genre-title">Action</div>
+        </div>
+        <div class="col-lg-2 col-md-4 col-sm-6 col-xs-12 genre">
+          <a href="topcharts/Adventure"><img src="images/genre1.jpg" class="genre-img overlay"></a>
+          <div class="genre-title">Adventure</div>
+        </div>
+        <div class="col-lg-2 col-md-4 col-sm-6 col-xs-12 genre">
+          <a href="topcharts/Biography"><img src="images/genre1.jpg" class="genre-img overlay"></a>
+          <div class="genre-title">Biography</div>
+        </div>
+        <div class="col-lg-2 col-md-4 col-sm-6 col-xs-12 genre">
+          <a href="topcharts/Comedy"><img src="images/genre1.jpg" class="genre-img overlay"></a>
+          <div class="genre-title">Comedy</div>
+        </div>
+        <div class="col-lg-2 col-md-4 col-sm-6 col-xs-12 genre">
+          <a href="topcharts/Crime"><img src="images/genre1.jpg" class="genre-img overlay"></a>
+          <div class="genre-title">Crime</div>
+        </div>
+        <div class="col-lg-2 col-md-4 col-sm-6 col-xs-12 genre">
+          <a href="topcharts/Drama"><img src="images/genre1.jpg" class="genre-img overlay"></a>
+          <div class="genre-title">Drama</div>
+        </div>
+      </div>
+  
+    
+
+  </div>
+
+  
+
+  </body>
 </html>

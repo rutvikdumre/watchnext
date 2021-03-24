@@ -4,6 +4,7 @@ from . import views
 urlpatterns = [
 
 path("", views.home, name="home"),
+path("topcharts/<str:genre>", views.topcharts, name="topcharts"),
 path("search/", views.searchDet, name="searchDet"),
 path("suggest/", views.search, name="search"),
 path("index/", views.index, name="index"),
