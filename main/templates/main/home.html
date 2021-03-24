@@ -40,7 +40,6 @@
     <link rel="preconnect" href="https://fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@100;600;&display=swap" rel="stylesheet">
 
-
   </head>
 
   <body>
@@ -94,10 +93,11 @@
           <div class="overlay">
             <div class="col-lg-6 text-content" style="margin: 40vh 7.5% auto 7.5%; padding: 2% 2%;">
               <h1>Find what to watch next.</h1>
+              <p style="font-size: 12px;color: red;">{{msg}}</p> 
               <button type="button" class="btn btn-dark btn-lg downloadbtn" value="Login" onClick="location.href='/login';"><i class="fas fa-sign-in-alt"></i> Login </button>
               <button type="button" class="btn btn-light btn-lg downloadbtn" value="Register" onClick="location.href='/register';"><i class="fas fa-users"></i> Signup </button>
             </div>
-            <p style="font-size: 12px;color: red;">{{msg}}</p> 
+            
           </div>          
         </div>
     </div>
@@ -109,28 +109,28 @@
     <div class="top-charts-container">
       <div class="row top-charts-bg">
         <div class="col-lg-2 col-md-4 col-sm-6 col-xs-12 genre">
-          <a href="topcharts/Action"><img src="images/genre1.jpg" class="genre-img overlay"></a>
-          <div class="genre-title">Action</div>
+          <a href="topcharts/Action"><img src="{% static 'images/action.jpg' %}" class="genre-img overlay"></a>
+          <div class="genre-title"><a href="topcharts/Action">Action</a></div>
         </div>
         <div class="col-lg-2 col-md-4 col-sm-6 col-xs-12 genre">
-          <a href="topcharts/Adventure"><img src="images/genre1.jpg" class="genre-img overlay"></a>
-          <div class="genre-title">Adventure</div>
+          <a href="topcharts/Adventure"><img src="{% static 'images/adventure.jpg'%}" class="genre-img overlay"></a>
+          <div class="genre-title"><a href="topcharts/Adventure">Adventure</a></div>
         </div>
         <div class="col-lg-2 col-md-4 col-sm-6 col-xs-12 genre">
-          <a href="topcharts/Biography"><img src="images/genre1.jpg" class="genre-img overlay"></a>
-          <div class="genre-title">Biography</div>
+          <a href="topcharts/Biography"><img src="{% static 'images/bio.jpg' %}" class="genre-img overlay"></a>
+          <div class="genre-title"><a href="topcharts/Biography">Biography</a></div>
         </div>
         <div class="col-lg-2 col-md-4 col-sm-6 col-xs-12 genre">
-          <a href="topcharts/Comedy"><img src="images/genre1.jpg" class="genre-img overlay"></a>
-          <div class="genre-title">Comedy</div>
+          <a href="topcharts/Comedy"><img src="{% static 'images/comedy.jpg' %}" class="genre-img overlay"></a>
+          <div class="genre-title"><a href="topcharts/Comedy">Comedy</a></div>
         </div>
         <div class="col-lg-2 col-md-4 col-sm-6 col-xs-12 genre">
-          <a href="topcharts/Crime"><img src="images/genre1.jpg" class="genre-img overlay"></a>
-          <div class="genre-title">Crime</div>
+          <a href="topcharts/Crime"><img src="{% static 'images/crime.jpg' %}" class="genre-img overlay"></a>
+          <div class="genre-title"><a href="topcharts/Crime">Crime</a></div>
         </div>
         <div class="col-lg-2 col-md-4 col-sm-6 col-xs-12 genre">
-          <a href="topcharts/Drama"><img src="images/genre1.jpg" class="genre-img overlay"></a>
-          <div class="genre-title">Drama</div>
+          <a href="topcharts/Drama"><img src="{% static 'images/drama.jpg' %}" class="genre-img overlay"></a>
+          <div class="genre-title"><a href="topcharts/Drama">Drama</a></div>
         </div>
       </div>
   

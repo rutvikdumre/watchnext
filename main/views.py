@@ -78,7 +78,7 @@ def detail(response,id):
 			if response.user.is_authenticated:
 				username = response.user.username
 				return redirect('/search')
-	return render(response, 'main/home.html', {'msg':'Please login!'})
+	return redirect('/login',{'msg':'Please login!'})
 
 def searchDet(request):
 	if request.method=='POST':

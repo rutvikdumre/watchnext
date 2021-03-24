@@ -86,7 +86,13 @@ h1, h2, h3, h4, h5, h6 {
     .portfolio-box .portfolio-box-caption .portfolio-box-description .product-category {font-size: 15px;}
     .portfolio-box .portfolio-box-caption .portfolio-box-description .product-name {font-size: 19px;}
 }*/
-
+.genre-title a{
+  text-decoration: none  !important;
+  color: white !important;
+}
+a:hover{
+  color: grey  !important;
+}
 .genre-title{
   position: absolute;
   top: 40%;
@@ -94,6 +100,7 @@ h1, h2, h3, h4, h5, h6 {
   text-align: center;
   font-size: 2rem;
   color: antiquewhite;
+  background-color: rgba(0, 0, 0, 0.7);
 }
 
 /* -------------- FORM -----------*/
