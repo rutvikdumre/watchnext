@@ -127,7 +127,7 @@ a:hover{
 .card-signin .card-img-left {
   width: 45%;
   /* Link to your background image using in the property below! */
-  background: scroll center url('../images/movie\ theatre.jfif');
+  /*background: scroll center url('../images/movie\ theatre.jfif');*/
   background-size: cover;
 }
 
