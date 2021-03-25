@@ -50,8 +50,8 @@ def searchByGenre(response,genre):
 
 
 def search(request):
-	if request.method=='GET':
-		name=request.GET.get('name')
+	if request.method=='POST':
+		name=request.POST.get('name')
 		results=searchMovie(name)
 		names=[]
 		for i in results:
