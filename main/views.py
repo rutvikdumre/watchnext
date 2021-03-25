@@ -20,8 +20,7 @@ def index(response, id):
 	return render(response, "main/list.html", {"ls":ls})
 
 def home(response):
-		   return render(response, "main/home.html",{})
- 
+	return render(response, "main/home.html",{})
 def topcharts(response, genre):
 	l1 = topchart[genre]
 	d1={}
@@ -56,10 +55,14 @@ def search(request):
 		names=[]
 		for i in results:
 			names.append(i.values())
+		if names==[]:
+			msg='No movie found with that name.'
+		else:
+			msg='Search results for {}:'.format(name)
 		username=None
 		if request.user.is_authenticated:
 			username = request.user.username	
-		return render(request,'main/search.html', {'uid':username,'name':name, 'Movies':tuple(names),'msg':'Search results for {}:'.format(name)})
+		return render(request,'main/search.html', {'uid':username,'name':name, 'Movies':tuple(names),'msg':msg})
 	else:
 		username=None
 		if request.user.is_authenticated:
@@ -67,7 +70,9 @@ def search(request):
 			return render(request,'main/search.html',{'uid':username})
 		return render(request, 'main/home.html')
 def detail(response,id):
+	username=None
 	if response.user.is_authenticated:
+     
 		try:
 			det= get_details(id)
 			movies=get_recommendation(det['title'])
