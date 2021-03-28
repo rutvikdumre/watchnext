@@ -72,13 +72,13 @@
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
           <ul class="navbar-nav ml-auto">
             <li class="nav-item">
-              <a class="nav-link" href="">Sign Up</a>
+              <a class="nav-link" href="/register">Sign Up</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="">Login</a>
+              <a class="nav-link" href="/login">Login</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="">Top Charts</a>
+              <a class="nav-link" href="/">Top Charts</a>
             </li>
           </ul>
         </div>
@@ -91,11 +91,11 @@
             <source src="images/covervideo.mp4" type="video/mp4">
           </video-->
           <div class="overlay">
-            <div class="col-lg-6 text-content" style="margin: 40vh 7.5% auto 7.5%; padding: 2% 2%;">
-              <h1>Find what to watch next.</h1>
-              <p style="font-size: 12px;color: red;">{{msg}}</p> 
-              <button type="button" class="btn btn-dark btn-lg downloadbtn" value="Login" onClick="location.href='/login';"><i class="fas fa-sign-in-alt"></i> Login </button>
-              <button type="button" class="btn btn-light btn-lg downloadbtn" value="Register" onClick="location.href='/register';"><i class="fas fa-users"></i> Signup </button>
+            <div class="col-lg-6 text-content">
+              <h1>Find what to <span style="color: #ff5252;"> watch next</span></h1>
+              <!--p style="font-size: 12px;color: red;">{{msg}}</p--> 
+              <button type="button" class="btn btn-dark btn-lg downloadbtn" style="margin: 10% 3% 5% 0; border-radius: 10px; border:none; background: radial-gradient(#ff5252,#c23131 ) ;" value="Login" onClick="location.href='/login';"><i class="fas fa-sign-in-alt"></i> Login </button>
+              <button type="button" class="btn btn-light btn-lg downloadbtn" value="Register" onClick="location.href='/register';" style="margin: 10% 3% 5% 0; border-radius: 10px; color: #ff5252;"><i class="fas fa-users"></i> Signup </button>
             </div>
             
           </div>          
@@ -106,31 +106,33 @@
   
   <!-- Genre-->
     
-    <div class="top-charts-container">
-      <div class="row top-charts-bg">
+    <div class="top-charts-container" style="text-align: center;">
+      <h4>This is <span style="color: #811DA4 ">ranzol</span>, your AI friend, here to help you find some of <span style="color: #FF5757;">the best movies</span> today</h4>
+      <h4>Go ahead and <span style="color: #811DA4 ">choose a genre</span> and I'll do the rest <br>
+      <div class="row top-charts-bg" style="margin-top: 1%;">
         <div class="col-lg-2 col-md-4 col-sm-6 col-xs-12 genre">
-          <a href="topcharts/Action"><img src="{% static 'images/action.jpg' %}" class="genre-img overlay"></a>
-          <div class="genre-title"><a href="topcharts/Action">Action</a></div>
+          <a href="topcharts/Action"><img src="{% static 'images/action.png' %}" class="genre-img "></a>
+         
         </div>
         <div class="col-lg-2 col-md-4 col-sm-6 col-xs-12 genre">
-          <a href="topcharts/Adventure"><img src="{% static 'images/adventure.jpg'%}" class="genre-img overlay"></a>
-          <div class="genre-title"><a href="topcharts/Adventure">Adventure</a></div>
+          <a href="topcharts/Adventure"><img src="{% static 'images/adventure.png'%}" class="genre-img "></a>
+          
         </div>
         <div class="col-lg-2 col-md-4 col-sm-6 col-xs-12 genre">
-          <a href="topcharts/Biography"><img src="{% static 'images/bio.jpg' %}" class="genre-img overlay"></a>
-          <div class="genre-title"><a href="topcharts/Biography">Biography</a></div>
+          <a href="topcharts/Biography"><img src="{% static 'images/biography.png' %}" class="genre-img "></a>
+        
         </div>
         <div class="col-lg-2 col-md-4 col-sm-6 col-xs-12 genre">
-          <a href="topcharts/Comedy"><img src="{% static 'images/comedy.jpg' %}" class="genre-img overlay"></a>
-          <div class="genre-title"><a href="topcharts/Comedy">Comedy</a></div>
+          <a href="topcharts/Comedy"><img src="{% static 'images/comedy.png' %}" class="genre-img "></a>
+          
         </div>
         <div class="col-lg-2 col-md-4 col-sm-6 col-xs-12 genre">
-          <a href="topcharts/Crime"><img src="{% static 'images/crime.jpg' %}" class="genre-img overlay"></a>
-          <div class="genre-title"><a href="topcharts/Crime">Crime</a></div>
+          <a href="topcharts/Crime"><img src="{% static 'images/crime.png' %}" class="genre-img "></a>
+          
         </div>
         <div class="col-lg-2 col-md-4 col-sm-6 col-xs-12 genre">
-          <a href="topcharts/Drama"><img src="{% static 'images/drama.jpg' %}" class="genre-img overlay"></a>
-          <div class="genre-title"><a href="topcharts/Drama">Drama</a></div>
+          <a href="topcharts/Drama"><img src="{% static 'images/drama.png' %}" class="genre-img "></a>
+         
         </div>
       </div>
   

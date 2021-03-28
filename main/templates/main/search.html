@@ -1,79 +1,47 @@
 {% extends 'main/base.html' %}
 {% load static %}
 {% load crispy_forms_tags %}
-<style>
-    h1{
-        align-self: center;
-        align-items: center;
-        text-align: center;
-    }
-    img
-    {
-    background-image:url("{% static 'default.png' %}");
-    }
-    html{
-        background-color:rgba(43,51,59,0.9);
-        align-content: center;
-    }
-    body{
-        background-color:rgba(43,51,59,0.9);
-    }
-    ul{
-        padding: 0;
-        margin: 0;
-        text-align: center;
-        align-content: center;
-    }
-    li{
-        padding: 0;
-        margin: 0;
-        
-    }
-    
-</style>
-{% block title %}
-Search
-{% endblock %}
-
 {% block content %}
-<body>
-    <p><h1>Hi {{uid}},<h1>
-        <img src="{% static 'robo.gif' %}" alt="My image" style="height: 128px;">
-        <h4>This is <b>ranzol</b> your AI friend,<br> I am going to help you decide what to watchNext!</h4>
-        
-        <br>Tell me a movie that you like:
-    </p>
-    <form method="POST">
-        {% csrf_token %}
-        <div>
-        <input type="text" placeholder="Enter movie name" name="name" id="name"><br>
-        <br><button  class="subbutton" type="submit" >Search</button>
+<div style="margin:0; background-image: url({% static 'images/suggest.png' %}); background-size: cover; background-repeat: no-repeat;">
+    <div style="margin: 0 20% auto 20%; padding: 2%; text-align: center; color: white;">
+        <p><h1>Hi {{uid}},<h1>
+            <img src="{% static 'robo.gif' %}" alt="My image" style="height: 128px;">
+            <h4>This is <span style="color: #811DA4 ">ranzol</span> your AI friend,<br> I am going to help you decide what to <span style="color: #FF5757;">watchNext!</span></h4>
+            
+            <br>Tell me a movie that you like:
+        </p>
+        <div class="login100-form">
+            <form method="POST">
+                {% csrf_token %}
+                <div>
+                <input type="text" name="name" id="name"><br>
+                <br><button  class="btn btn-dark btn-lg downloadbtn" type="submit" style="margin: 2% 3% 5% 0; padding: 0.5% 3% 1% 3%; font-size: 1.2rem; border-radius: 5px; border:none; background: #ff5252 ;" >Search</button>
+                </div>
+                
+            </form>
         </div>
         
-    </form>
+    </div>
     
     <br>
-    <h2>{{msg}}</h2>
-        <ul style="list-style-type: none;list-style: none;padding: 0;margin: 0;">
+    <div class="genre-div" style="width: 75vw; margin-left: 11%; text-align: center;" >
+        <h4 style="color:white">
+          {{msg}}
+        </h4>
+          <div class="row" style="padding: 3% 3%;">
             {% for i,j,k in Movies %}
-                <br>
-                <li>
-                    <a href="/suggestions/{{i}}"><img src="{{k}}"  alt="No image" ></img></a><br>
-                    <a href="/suggestions/{{i}}">    {{i}} ({{j}})</a>
-                </li>
-                <br>
+            <div class="col-lg-2 col-md-4 col-sm-6 col-xs-12" style="text-align: center;">
+              <img src="{{k}}" class="card-img-top" alt="..." style="margin-top: 2%;">
+              <div class="card-body">
+                <a href="/suggestions/{{i}}"class="card-text">{{i}} {{j}}</a>
+              </div>
+            </div>
             {% endfor %}
-        </ul>
-        <br>
-        <p>{{error}}</p>
-        <br>
-        <hr>
-        <a href="/logout">Logout</a>
-        <br>
-        
-        
+          </div>
+          <br>
+      </div>
 
-
+</div>
 {% endblock %}
 
 

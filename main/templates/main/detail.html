@@ -1,61 +1,78 @@
 {% extends 'main/base.html' %}
-    {% block content %}
-    {% csrf_token %}
-    
-    <h2>Showing details for {{title}}:</h2>
-    <br>
-    <img src={{picurl}} alt="image not found"></img>
-    <br> <h1>{{title}}</h1>
+{% load static %}
+{% block content%}
+        <style>
+          @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@100;600;&display=swap');
+        </style>
+    <body style="color:black; font-family: 'Montserrat';">
+        <div class="container-genre p-l-55 p-r-55 p-t-80 p-b-30" style="background-image: url({% static 'images/search.png' %});">
+          <div class="wrap-genre" style="width: 70vw; padding: 3% 2%;">
+            <div class="genre-div" style="text-align: center;">
+                <span class="genre-div-title p-b-37" style="margin: 2.5% 2%;">
+                   Showing Details for {{title}}
+                </span>
+                <div class="left" style="width: 45%; float: left; text-align: center;">
+                    <img src={{picurl}} alt="image not found" style="width: 40%;"></img>
+                    <br><span class="genre-div-title p-b-37" style="margin: 2.5% 2%;">
+                        {{title}} <br> <span style="font-size: 1em;">{{year}}</span>
+                     </span>
+                </div>
+                <div class="right" style="width: 55%; float: right; font-family: sans-serif; line-height: 2.5;">
+                    <strong>Cast:</strong>
+                    {% for i in cast %}
+                    {{i}} |
+                    {% endfor %}
+                    <br>
+                    <strong>Plot:</strong>
+                    {{plot}}
+                    <br>
+                    <strong>Genres:</strong>
+                    {% for i in genres %}
+                    {{i}} |
+                    {% endfor %}
+                    <br>
+                    <strong>Runtime:</strong> 
+                    {% for i in runtimes %}
+                    {{i}} minutes
+                    {% endfor %}
+                    <br>
+                    <strong>Rating: </strong>
+                    {{rating}}
+                    <br>
+                    <strong>Language: </strong>
+                    {% for i in lang %}
+                    {{i}} |
+                    {% endfor %}
+                    <br>
+                </div>
+                
+                
+                
+                <br>
+            </div>
+        </div>
     <hr>
-    <br> 
-    <h3>Cast:</h3>
-    {% for i in cast %}
-    {{i}} |
-    {% endfor %}
     <br>
-    <h3>Plot:</h3>
-    {{plot}}
-    <h3>Genres:</h3>
-    {% for i in genres %}
-    {{i}} |
-    {% endfor %}
-    <h3>Runtime:</h3> 
-    {% for i in runtimes %}
-    {{i}} 
-    {% endfor %}
-    <h3>Year: </h3>
-    {{year}}
-    <h3>Rating: </h3>
-    {{rating}}
-    <h3>Language: </h3>
-    {% for i in lang %}
-    {{i}} |
-    {% endfor %}
-    <br><br>
-    <hr>
-    <h1>As you like {{title}}, ranzol wants you to try:</h1>
 	<br>
-	<ul style="list-style-type:none;">
-		{% for i,k in Movies %}
-			<br>
-			<li>
-				<a href="/detail/{{i}}"><img src={{k}} alt="image not found" ></img></a><br><br>
-                <a href="/detail/{{i}}">{{i}}</a>
-			</li>
-            <br>
-            <br>
-		{% endfor %}
-	</ul>
-    <br>
-    <br>
-    <hr>
-    <a href="/suggest">Get suggestions based on another movie</a><br><br>
-    <a href="/search">Search a movie</a>
-    <br>
-    <br>
-    <hr>
-    <a href="/logout">Logout</a>
-    <br>
-    <br>
+            <div class="genre-div" style="width: 75vw;" >
+              <span class="genre-div-title p-b-37" style="margin: 2.5% 2%; color: white;">
+                As you like {{title}}, ranzol wants you to try
+             </span>
+                <div class="row" style="padding: 3% 3%;">
+                  {% for i,j in Movies %}
+                  <div class="col-lg-2 col-md-4 col-sm-6 col-xs-12" style="text-align: center;">
+                    <img src="{{j}}" class="card-img-top" alt="..." style="margin-top: 2%;">
+                    <div class="card-body">
+                      <a href="/detail/{{i}}"class="card-text">{{i}}</a>
+                    </div>
+                  </div>
+                  {% endfor %}
+                </div>
+                <br>
+            </div>
+
+    </div>
+    </body>
+            
     
 {% endblock %}

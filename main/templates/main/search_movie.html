@@ -1,19 +1,26 @@
 {% extends 'main/base.html' %}
+{% load static %}
 {% block content %}
-<h1>Welcome {{uid}}!</h1>
-<br>
-<form method="POST">
-    {% csrf_token %}
-    <input type="text" placeholder="Enter movie name" name="name" id="name">
+<body style="background-image: url({% static 'images/search.png' %}); background-size: cover; background-repeat: no-repeat;"></body>
+<div style="margin: 5% 20% auto 20%; text-align: center; color: white;">
+    <p><h1>Hi {{uid}},<h1>
+        <img src="{% static 'robo.gif' %}" alt="My image" style="height: 128px;">
+        <h4>This is <span style="color: #811DA4 ">ranzol</span> your AI friend,<br>Which movie do you want to <span style="color: #FF5757;">search</span> today</h4>
+        
+    </p>
+    <div class="login100-form">
+        <form method="POST">
+            {% csrf_token %}
+            <div>
+            <input type="text" name="name" id="name" placeholder="Enter movie name"><br>
+            <br><button  class="btn btn-dark btn-lg downloadbtn" type="submit" style="margin: 2% 3% 5% 0; padding: 0.5% 3% 1% 3%; font-size: 1.2rem; border-radius: 5px; border:none; background: #ff5252 ;" >Search</button>
+            </div>
+            
+        </form>
+    </div>
     
-    <br><button class="subbutton" type="submit">Search</button>
-    
-    <p>{{error}}</p>
-</form>
-<br>
-    <hr>
-    <a href="/logout">Logout</a>
-    <br>
+</div>
+
     
     
 {% endblock %}

@@ -69,11 +69,14 @@ def search(request):
 			username = request.user.username
 			return render(request,'main/search.html',{'uid':username})
 		return render(request, 'main/home.html')
+
+
 def detail(response,id):
 	username=None
+	#print(id)
 	if response.user.is_authenticated:
-     
 		try:
+			print('in try block')
 			det= get_details(id)
 			movies=get_recommendation(det['title'])
 			det.update({'Movies':movies})
@@ -88,6 +91,7 @@ def detail(response,id):
 def searchDet(request):
 	if request.method=='POST':
 		name=request.POST.get('name')
+		print(name)
 		return redirect('/detail/'+name)
 	else:
 		username=None
@@ -95,6 +99,7 @@ def searchDet(request):
 			username = request.user.username
 			return render(request,'main/search_movie.html',{'uid':username})
 		return render(request, 'main/home.html')
+
 def index(response):
 	if response.user.is_authenticated:
 		username = response.user.username
