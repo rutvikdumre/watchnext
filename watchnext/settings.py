@@ -134,5 +134,5 @@ STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
     # end }
 CRISPY_TEMPLATE_PACK='bootstrap4'
 LOGIN_REDIRECT_URL='/'
-ALLOWED_HOSTS = ['test-wn.herokuapp.com','127.0.0.1:8000','127.0.0.1','watch--next.herokuapp.com']
+ALLOWED_HOSTS = ['test-wn.herokuapp.com','127.0.0.1:8000','127.0.0.1','watch--next.herokuapp.com','test-watchnext.herokuapp.com']
 LOGIN_REDIRECT_URL = 'index'
