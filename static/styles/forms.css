@@ -157,7 +157,7 @@ transition: all 0.5s ease-in-out;
 border-radius: 20px;
 box-shadow: 0 5px 20px 0px rgba(0, 0, 0, 0.1);
 transition: all 0.4s;
-font-family: Poppins;
+font-family: "Montserrat";
 font-size: 16px;
 color: #2c2c54 !important;
 font-weight: 600;
@@ -335,25 +335,6 @@ cursor:pointer;
 /*//////////////////////////////////////////////////////////////////
 [ FONT ]*/
 
-@font-face {
-font-family: SourceSansPro-Regular;
-src: url('../fonts/source-sans-pro/SourceSansPro-Regular.ttf'); 
-}
-
-@font-face {
-font-family: SourceSansPro-Bold;
-src: url('../fonts/source-sans-pro/SourceSansPro-Bold.ttf'); 
-}
-
-@font-face {
-font-family: SourceSansPro-SemiBold;
-src: url('../fonts/source-sans-pro/SourceSansPro-SemiBold.ttf'); 
-}
-
-@font-face {
-font-family: JosefinSans-Bold;
-src: url('../fonts/JosefinSans/JosefinSans-Bold.ttf'); 
-}
 
 /*//////////////////////////////////////////////////////////////////
 [ RESTYLE TAG ]*/
@@ -366,12 +347,12 @@ box-sizing: border-box;
 
 body, html {
 height: 100%;
-font-family: SourceSansPro-Regular, sans-serif;
+font-family: sans-serif;
 }
 
 /*---------------------------------------------*/
 a {
-font-family: SourceSansPro-Regular;
+font-family: "Montserrat";
 font-size: 14px;
 line-height: 1.7;
 color: #666666;
@@ -396,7 +377,7 @@ margin: 0px;
 }
 
 p {
-font-family: SourceSansPro-Regular;
+font-family: "Montserrat";
 font-size: 14px;
 line-height: 1.7;
 color: #666666;
@@ -454,14 +435,14 @@ border: none !important;
 /*//////////////////////////////////////////////////////////////////
 [ Utility ]*/
 .txt1 {
-font-family: SourceSansPro-Regular;
+font-family: "Montserrat";
 font-size: 16px;
 line-height: 1.4;
 color: #999999;
 }
 
 .txt2 {
-font-family: SourceSansPro-Regular;
+font-family: "Montserrat";
 font-size: 16px;
 line-height: 1.4;
 color: #4b2354;
@@ -555,7 +536,7 @@ border-radius: 20px;
 }
 
 .input100 {
-font-family: SourceSansPro-Bold;
+font-family: "Montserrat";
 font-size: 16px;
 color: #2c2c54;
 line-height: 1.2;
@@ -596,7 +577,7 @@ height: 50px;
 background-color: #2c2c54;
 border-radius: 25px;
 
-font-family: Poppins;
+font-family: "Montserrat";
 font-size: 14px;
 color: #fff;
 line-height: 1.2;
