@@ -1,5 +1,6 @@
 # views.py
 import imdb
+import random
 from django.contrib.auth import logout
 from django.shortcuts import render,redirect
 from django.http import HttpResponse, HttpResponseRedirect
@@ -109,6 +110,17 @@ def index(response):
 def logout_view(request):
     logout(request)
     return render(request, 'main/home.html', {'msg':'You have been logged out!'})
+
+def surprise(response):
+	x= random.choice(['Comedy','Action','Adventure', 'Crime', 'Biography','Drama'])
+	l1 = topchart[x]
+	d1={}
+	for i in l1:
+		d1[i['name']]=i['picurl']
+		#title+=[i['name'],]
+		#picurl+=[i['picurl'],]
+	return render(response, "main/surprise.html", {'dict1':d1, 'genre':'Surprise genre: '+x})
+
 
 def genreSearch(genre):
     ia = imdb.IMDb()
