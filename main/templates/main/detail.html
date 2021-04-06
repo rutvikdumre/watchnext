@@ -7,17 +7,18 @@
     <body style="color:black; font-family: 'Montserrat';">
         <div class="container-genre p-l-55 p-r-55 p-t-80 p-b-30" style="background-image: url({% static 'images/search.png' %});">
           <div class="wrap-genre" style="width: 70vw; padding: 3% 2%;">
-            <div class="genre-div row" style="text-align: center;padding: 2%;font-family: sans-serif; line-height: 2.5; text-align: center; align-items: center;">
+            <div class="genre-div" style="text-align: center;">
                 <span class="genre-div-title p-b-37" style="margin: 2.5% 2%;">
                    Showing Details for {{title}}
                 </span>
-       
+                <div class="row">
+                  <div class="col-lg-4 col-md-4 col-sm-12" style="float: left; text-align: center; margin-right: 5%;">
                     <img src={{picurl}} alt="image not found" style="width: 40%;"></img>
                     <br><span class="genre-div-title p-b-37" style="margin: 2.5% 2%;">
                         {{title}} <br> <span style="font-size: 1em;">{{year}}</span>
                      </span>
-              
-                
+                </div>
+                <div class="col-lg-6 col-md-6 col-sm-12" style="font-family: sans-serif; line-height: 2.5;">
                     <strong>Cast:</strong>
                     {% for i in cast %}
                     {{i}} |
@@ -44,7 +45,10 @@
                     {{i}} |
                     {% endfor %}
                     <br>
-               
+                </div>
+                </div>
+
+                
                 
                 
                 

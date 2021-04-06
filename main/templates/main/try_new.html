@@ -1,3 +1,4 @@
+
 {% load static %}
 <!DOCTYPE html>
 <html>
@@ -12,6 +13,7 @@
 	<link rel = "icon" href =  
 "{% static 'wn.png' %}" 
         type = "image/x-icon"> 
+
 	<style>
 		*
 		{
@@ -482,19 +484,12 @@
 		img{
 			width: 90px;
 		}
-
+		
 	</style>
 </head>
+
 <body>
 	<div class="container">
-			<div class="navbar">
-				<div class="menu">
-					<h3 class="logo">Watch<span>Next</span></h3>
-					<div class="hamburger-menu">
-						<div class="bar"></div>
-					</div>
-				</div>			
-			</div>
 
 			<div class="main-container">
 
@@ -511,6 +506,7 @@
 
 									<li><a href="/suggest"><img src="{% static 'wn.png' %}" alt="Not found"  /></a></li>
 
+									<li><a href="/surprise"><img src="{% static 'sur.png' %}" alt="Not found"/> </a></li>
 									<li><a href="/logout"><img src="{% static 'logout.png' %}" alt="Not found"/> </a></li>
 									
 								</ul>
@@ -530,49 +526,9 @@
 	        			<p class="try1">CONTACT US</p>
 	        		</a>
 	        	</div>>-->
-	        	<div class="shadow three">
-	        		<a href="/search" style="text-decoration: none">
-	        			<p class="try1">SEARCH BOX</p>
-	        		</a>
-	        	</div>
-
-	        	<div class="shadow four">
-	        		<a href="/suggest" style="text-decoration: none">
-	        			<p class="try1">SUGGEST</p>
-	        		</a>
-	        	</div>
-
+	        	
 			</div>
 	</div>
-
-	<script type="text/javascript">
-		const hamburger_menu = document.querySelector(".hamburger-menu");
-		const container = document.querySelector(".container");
-		hamburger_menu.addEventListener("click", () => 
-		{
-  			container.classList.toggle("active");
-		});
-
-	</script>
-
 </body>
+
 </html>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
