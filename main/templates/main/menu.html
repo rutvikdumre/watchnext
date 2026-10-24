@@ -1,0 +1,24 @@
+{% extends 'main/base.html' %}
+{% load static %}
+{% block content %}
+<h1 class="page-title">Hi {% if user.is_authenticated %}{{ user.username }}{% else %}there{% endif %} 👋</h1>
+<p class="page-sub">What are we watching today?{% if not user.is_authenticated %} You're browsing as a guest.{% endif %}</p>
+<div class="menu-grid">
+  <a class="menu-tile" href="/search/">
+    <img src="{% static 'Search.png' %}" alt="">
+    <div><strong>Get details</strong><span>Plot, cast, rating and runtime for any movie</span></div>
+  </a>
+  <a class="menu-tile" href="/suggest/">
+    <img src="{% static 'wn.png' %}" alt="">
+    <div><strong>Recommendations</strong><span>Tell ranzol a movie you like</span></div>
+  </a>
+  <a class="menu-tile" href="/topcharts/Action">
+    <img src="{% static 'genre.png' %}" alt="">
+    <div><strong>Top charts</strong><span>The best movies in each genre</span></div>
+  </a>
+  <a class="menu-tile" href="/surprise">
+    <img src="{% static 'sur.png' %}" alt="">
+    <div><strong>Surprise me</strong><span>A random genre's greatest hits</span></div>
+  </a>
+</div>
+{% endblock %}

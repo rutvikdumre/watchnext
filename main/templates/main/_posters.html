@@ -1,0 +1,9 @@
+<div class="poster-grid">
+  {% for m in movies %}
+  <a class="poster-card" href="/{{ link|default:'detail' }}/{{ m.id|urlencode }}" data-loading>
+    <div class="poster"><img src="{{ m.poster }}" alt="{{ m.title }} poster" loading="lazy"></div>
+    <div class="name">{{ m.title }}</div>
+    {% if m.year %}<div class="meta">{{ m.year }}</div>{% endif %}
+  </a>
+  {% endfor %}
+</div>

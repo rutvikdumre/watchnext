@@ -1,181 +1,93 @@
+"""ranzol: content-based movie recommender.
+
+Builds a bag-of-words vector for every movie in data_wp.csv (cast, director,
+writer, country, language, runtime, year, rating, genre) and recommends the
+movies with the highest cosine similarity. Movies that are not in the CSV are
+vectorised on the fly from their IMDb details.
+"""
+from functools import lru_cache
+from pathlib import Path
 
 import pandas as pd
-import numpy as np
 from sklearn.feature_extraction.text import CountVectorizer
 from sklearn.metrics.pairwise import cosine_similarity
-import imdb
-from csv import writer
-import urllib.request
-from PIL import Image
-import os
 
-def append_list_as_row(file_name, list_of_elem):
-    # Open file in append mode
-    with open(file_name, 'a+', newline='') as write_obj:
-        # Create a writer object from csv module
-        csv_writer = writer(write_obj)
-        # Add contents of list as last row in the csv file
-        csv_writer.writerow(list_of_elem)
-    write_obj.close()
+from . import imdb_api
 
-def combine_features(row):
-    return row['title']+" "+row['cast']+" "+row['director']+" "+row['writer']+" "+row['countries']+" "+row['language codes']+" "+str(row['runtime'])+" "+str(row['year'])+" "+str(row['rating'])+" "+str(row['genre'])+" "+str(row['index'])
-def get_title_from_index(index):
-    df = pd.read_csv('main/data_wp.csv')
-    return df[df.index == index]["title"].values[0]
-def get_index_from_title(title):
-    df = pd.read_csv('main/data_wp.csv')
-    return df[df.title == title]["index"].values[0]
+DATA_FILE = Path(__file__).resolve().parent / 'data_wp.csv'
+FEATURES = ['title', 'cast', 'director', 'writer', 'countries', 'language codes',
+            'runtime', 'year', 'rating', 'genre']
+LANG_CODES = {'English': 'en', 'Hindi': 'hi', 'French': 'fr', 'Japanese': 'ja', 'Italian': 'it',
+              'German': 'de', 'Spanish': 'es', 'Korean': 'ko', 'Swedish': 'sv', 'Russian': 'ru',
+              'Portuguese': 'pt', 'Chinese': 'zh', 'Mandarin': 'zh', 'Tamil': 'ta', 'Telugu': 'te',
+              'Persian': 'fa', 'Turkish': 'tr', 'Danish': 'da', 'Arabic': 'ar'}
 
 
-def m_fit():
-    df = pd.read_csv('main/data_wp.csv')
-    features = ['title','cast','director','writer','countries','language codes','runtime','year','rating','genre','index']
+def _combine(row):
+    return ' '.join(str(row[f]) for f in FEATURES)
 
 
-    for feature in features:
-        df[feature] = df[feature].fillna('') #filling all NaNs with blank string
+@lru_cache(maxsize=1)
+def model():
+    df = pd.read_csv(DATA_FILE)
+    df = df.drop_duplicates(subset='title').reset_index(drop=True)
+    for f in FEATURES:
+        df[f] = df[f].fillna('')
+    vectorizer = CountVectorizer()
+    matrix = vectorizer.fit_transform(df.apply(_combine, axis=1))
+    df['norm'] = df['title'].map(imdb_api.normalize)
+    return df, vectorizer, matrix
 
-    df["combined_features"] = df.apply(combine_features,axis=1) #applying combined_features() method over each rows of dataframe and storing the combined string in "combined_features" column
 
-    #df.iloc[0].combined_features
-
-    cv = CountVectorizer() #creating new CountVectorizer() object
-    count_matrix = cv.fit_transform(df["combined_features"]) #feeding combined strings(movie contents) to CountVectorizer() object
-    cosine_sim = cosine_similarity(count_matrix)
-    return (df,cosine_sim)
+def known_titles():
+    return tuple(model()[0]['title'])
 
 
-def get_recommendation(name):
-    df,cosine_sim=m_fit()
-    ia = imdb.IMDb()
-    movies = ia.search_movie(name)
-    movie= movies[0]
-    id1=movie.getID()
-    #print(id1)
-
-    ind=len(df)
-    #print(ind)
+def _year(value):
     try:
-      movie_user_likes = str(movie)
-      movie_index = get_index_from_title(movie_user_likes)
-      similar_movies = list(enumerate(cosine_sim[movie_index-1])) #accessing the row corresponding to given movie to find all the similarity scores for that movie and then enumerating over it
-    except:
-        movie = ia.get_movie(id1)
-        #print(movie.get('title'))
-        #try:
-        ind+=1
-        features = ['cast','director','writer','countries','language codes','runtime','year','rating','genre']
-        
-        row_contents = [movie.get('title')]
-
-        for i in features:
-            try:
-                x=movie.get(i)
-                if isinstance(x, list):
-                    x=x[0] 
-                if(x=='' or x==None):
-                    x='null'
-            except:
-                x='null'
-            row_contents.append(x)
-        row_contents.append(ind)
-
-        append_list_as_row('main/data_wp.csv', row_contents)
-        df,cosine_sim=m_fit()
-        movie_user_likes = str(movie)
-        movie_index = get_index_from_title(movie_user_likes)
-        similar_movies = list(enumerate(cosine_sim[movie_index-1])) #accessing the row corresponding to given movie to find all the similarity scores for that movie and then enumerating over it
+        return int(float(value))
+    except (TypeError, ValueError):
+        return None
 
 
-    sorted_similar_movies = sorted(similar_movies,key=lambda x:x[1],reverse=True)[1:]
+def titles_by_genre(genre, n=12):
+    df = model()[0]
+    return list(df[df.genre.str.lower() == genre.lower()]['title'][:n])
 
-    i=0
-    #print("Top 6 similar movies to "+movie_user_likes+" are:\n")
-    recommended_movies = []
-    for element in sorted_similar_movies:
-        title=str(get_title_from_index(element[0]))
-        movies = ia.search_movie(title)
-        movie= movies[0]
-        movie=movie.movieID
-        movie=ia.get_movie(movie)
-        url=movie.get('cover url')
-        recommended_movies.append([title,url])
-        i=i+1
-        if i>5:
-            break
-    return recommended_movies
 
-def removetag(s):
-    alteredString = ""
-    for i in range(len(s)):
-        if s[i]+s[i+1]=='::':
-            break
-        alteredString+=s[i]
-    return alteredString
-def searchMovie(movie_name_string):
-    ia=imdb.IMDb()
-    movS=ia.search_movie(movie_name_string)[0:4]
-    movIDList=[]
-    for i in range(len(movS)):
-        movIDList.append(movS[i].movieID)
-        movIDList[i]=ia.get_movie(movIDList[i])
-        movIDList[i]={'name':movIDList[i].get('title'),'year':movIDList[i].get('year'),'picurl':movIDList[i].get('cover url')}
-        if movIDList[i]['picurl']==None:
-            movIDList[i]['picurl']="/static/default.png"
-    return movIDList[0:4]
+def _row_from_details(d):
+    """Turn IMDb details into the same feature string the CSV rows use."""
+    lang = d['languages'][0] if d['languages'] else ''
+    row = {
+        'title': d['title'],
+        'cast': d['cast'][0] if d['cast'] else '',
+        'director': d['directors'][0] if d['directors'] else '',
+        'writer': d['writers'][0] if d['writers'] else '',
+        'countries': d['countries'][0] if d['countries'] else '',
+        'language codes': LANG_CODES.get(lang, lang),
+        'runtime': d['runtime'] or '',
+        'year': d['year'],
+        'rating': d['rating'] or '',
+        'genre': d['genres'][0] if d['genres'] else '',
+    }
+    return _combine(row)
 
-def get_details(movie_name):
-    ia = imdb.IMDb()
-    filmID = ia.search_movie(movie_name)[0].movieID
-    filmObj = ia.get_movie(filmID)
-    listOfAttr = ['id','title','cast','cover url','plot','genres','runtimes','year','rating','language codes']
-    filmDict = {}
-    filmDict.update({'id':filmID})
-    for i in listOfAttr[1:]:
-        try:
-            if i=="language codes":
-                url=filmObj.get(i)
-                filmDict.update({'lang':url})
-                continue
-            if i=="cover url":
-                url=filmObj.get(i)
-                filmDict.update({'picurl':url})
-                continue
-            if i == 'cast':
-                filmCast = filmObj.get('cast')[0:5]
-                cast = []
-                for j in filmCast:
-                    cast.append(j['name'])
-                filmDict.update({i:cast})
-                continue
-            if i == "plot":
-                plot = sorted(filmObj.get('plot'),key=len)[0]
-                filmDict.update({i:plot})
-                continue
-            filmDict.update({i:filmObj.get(i)})
-            
-        except:
-            filmDict.update({i:f"{i} not found"})
-    return filmDict
 
-def genreSearch(genre):
-    df = pd.read_csv('main/data_wp.csv')
-    listOfMovies = []
-    data = df[df.genre==genre]
-    ia = imdb.IMDb()
-    for i in range(6):
-        filmID = ia.search_movie(data.values[i][0])[0].movieID
-        filmObj = ia.get_movie(filmID)
-        listOfMovies.append({'name':filmObj.get('title'),'year':filmObj.get('year'),'picurl':filmObj.get('cover url')})
-        if listOfMovies[i]['picurl']==None:
-            listOfMovies[i]['picurl']="/static/default.png"
-    return listOfMovies
-    # for i in range(6):
-    #     filmID = ia.search_movie(data.values[i][0])[0].movieID
-    #     filmObj = ia.get_movie(filmID)
-    #     listOfMovies.append(filmObj)
-    #     listOfMovies[i]={'name':filmObj['title'],'year':filmObj['year'],'picurl':filmObj['cover url']}
-    #     if listOfMovies[i]['picurl']==None:
-    #         listOfMovies[i]['picurl']="/static/default.png"
-    # return listOfMovies
+def recommend(d, n=6):
+    """Return up to n [title, poster, imdb_id] lists similar to the movie `d`.
+
+    `d` is a details dict from imdb_api.details().
+    """
+    df, vectorizer, matrix = model()
+    norm = imdb_api.normalize(d['title'])
+    matches = df.index[df['norm'] == norm].tolist()
+    if matches:
+        vector = matrix[matches[0]]
+    else:
+        vector = vectorizer.transform([_row_from_details(d)])
+    scores = cosine_similarity(vector, matrix)[0]
+    ranked = sorted(range(len(scores)), key=lambda i: scores[i], reverse=True)
+    rows = [i for i in ranked if df.at[i, 'norm'] != norm][:n]
+    titles = [df.at[i, 'title'] for i in rows]
+    found = imdb_api.posters_for(titles, years={df.at[i, 'title']: _year(df.at[i, 'year']) for i in rows})
+    return [[t, found[t][1], found[t][0]] for t in titles]

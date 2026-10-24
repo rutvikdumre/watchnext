@@ -1,0 +1,10 @@
+{% extends 'main/base.html' %}
+{% block title %}{{ heading }} · watchNext{% endblock %}
+{% block content %}
+<h1 class="page-title">{{ heading }}</h1>
+<p class="page-sub">{% if surprise %}ranzol rolled the dice. <a href="/surprise">Roll again</a>{% else %}Tap a poster for details and recommendations.{% endif %}</p>
+<nav class="chips" aria-label="Genres">
+  {% for g in genres %}<a class="chip {% if g == active %}active{% endif %}" href="/topcharts/{{ g }}">{{ g }}</a>{% endfor %}
+</nav>
+{% include 'main/_posters.html' %}
+{% endblock %}

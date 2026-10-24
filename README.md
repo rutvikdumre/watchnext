@@ -1,7 +1,8 @@
 # watchnext
-watchNext is a movie recommendation website which learns from the users and uses IMDBpy.
+watchNext is a movie recommendation website. ranzol, its recommender, matches movies by cast, crew, genre and more, and live movie data comes from IMDb.
 <hr>
-<h2>Live Website: https://watch--next.herokuapp.com/</h2>
+<h3>Deploy</h3>
+One-click deploy on Render (free plan) using <code>render.yaml</code>: <a href="https://render.com/deploy?repo=https://github.com/rutvikdumre/watchnext">Deploy to Render</a>
 <br>
 <h3>To run it locally:</h3><hr>
 1. <a href="https://git-scm.com/book/en/v2/Git-Basics-Getting-a-Git-Repository">Clone</a> the project<br><br>

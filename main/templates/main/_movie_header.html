@@ -1,0 +1,30 @@
+<div class="movie">
+  <div class="poster-lg"><img src="{{ movie.poster }}" srcset="{{ movie.poster }} 600w, {{ movie.poster_full }} 1000w" sizes="(min-width: 768px) 300px, 62vw" alt="{{ movie.title }} poster"></div>
+  <div>
+    <h1>{{ movie.title }}</h1>
+    <ul class="facts">
+      {% if movie.year %}<li>{{ movie.year }}</li>{% endif %}
+      {% if movie.rating %}<li class="star">★ {{ movie.rating }}</li>{% endif %}
+      {% if movie.runtime %}<li>{{ movie.runtime }} min</li>{% endif %}
+      {% for g in movie.genres %}<li>{{ g }}</li>{% endfor %}
+    </ul>
+    {% if movie.plot %}<p class="plot">{{ movie.plot }}</p>{% endif %}
+    {% if full %}
+    <dl>
+      {% if movie.directors %}<dt>Director</dt><dd>{{ movie.directors|join:", " }}</dd>{% endif %}
+      {% if movie.writers %}<dt>Writers</dt><dd>{{ movie.writers|join:", " }}</dd>{% endif %}
+      {% if movie.cast %}<dt>Stars</dt><dd>{{ movie.cast|join:", " }}</dd>{% endif %}
+      {% if movie.languages %}<dt>Language</dt><dd>{{ movie.languages|join:", " }}</dd>{% endif %}
+      {% if movie.countries %}<dt>Country</dt><dd>{{ movie.countries|join:", " }}</dd>{% endif %}
+    </dl>
+    {% endif %}
+    <div class="btn-row">
+      {% if full %}
+        <a class="btn-wn" href="#ranzol-picks">See recommendations</a>
+      {% else %}
+        <a class="btn-wn" href="/detail/{{ movie.id }}" data-loading>Full details</a>
+      {% endif %}
+      <a class="btn-wn ghost" href="https://www.imdb.com/title/{{ movie.id }}/" target="_blank" rel="noopener">View on IMDb</a>
+    </div>
+  </div>
+</div>

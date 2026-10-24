@@ -1,143 +1,18 @@
+{% extends 'main/base.html' %}
 {% load crispy_forms_tags %}
-
-{% load static %}
-
-<html>
-  <head>
-    <!-- Including the bootstrap CDN -->
-<link
-rel="stylesheet"
-href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css"
-integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l"
-crossorigin="anonymous"
-/>
-<script
-src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
-integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
-crossorigin="anonymous"
-></script>
-<script
-src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"
-integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN"
-crossorigin="anonymous"
-></script>
-<script
-src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.min.js"
-integrity="sha384-+YQ4JLhjyBLPDQt//I+STsc9iw4uQqACwlvpslubQzn4u2UU2UFM80nGisd026JF"
-crossorigin="anonymous"
-></script>
-
-<!-- Google Fonts-->
-<link rel="preconnect" href="https://fonts.gstatic.com">
-<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@100;600;&display=swap" rel="stylesheet">
-
-
-  </head>
-    <link rel = "icon" href = "{% static 'wn.png' %}" type = "image/x-icon"> 
-    <meta charset="UTF-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1">
-<!--===============================================================================================-->	
-	<link rel="icon" type="image/png" href="images/icons/favicon.ico"/>
-<!--===============================================================================================-->
-	<link rel="stylesheet" type="text/css" href="vendor/bootstrap/css/bootstrap.min.css">
-<!--===============================================================================================-->
-	<link rel="stylesheet" type="text/css" href="fonts/font-awesome-4.7.0/css/font-awesome.min.css">
-<!--===============================================================================================-->
-	<link rel="stylesheet" type="text/css" href="fonts/iconic/css/material-design-iconic-font.min.css">
-<!--===============================================================================================-->
-	<link rel="stylesheet" type="text/css" href="vendor/animate/animate.css">
-<!--===============================================================================================-->	
-	<link rel="stylesheet" type="text/css" href="vendor/css-hamburgers/hamburgers.min.css">
-<!--===============================================================================================-->
-	<link rel="stylesheet" type="text/css" href="vendor/animsition/css/animsition.min.css">
-<!--===============================================================================================-->
-	<link rel="stylesheet" type="text/css" href="vendor/select2/select2.min.css">
-<!--===============================================================================================-->	
-	<link rel="stylesheet" type="text/css" href="vendor/daterangepicker/daterangepicker.css">
-<!--===============================================================================================-->
-	<link rel="stylesheet" type="text/css" href= "{% static 'styles/style.css' %}">
-	<link rel="stylesheet" type="text/css" href= "{% static 'styles/forms.css' %}">
-
-  
-    <body>
-      <!--Navigation-->
-      <nav class="navbar navbar-expand-sm sticky-top navbar-dark navigation" style="background-color: #262626; padding: 1% 2%; margin: 0 0;">
-
-        <!--Brand-->
-        <a class="navbar-brand" href="/">
-          <img src="{% static 'images/watchnext.png' %}" height="40vh" alt="" />
-        </a>
-
-        <!--Toggle-->
-
-        <button
-          class="navbar-toggler"
-          type="button"
-          data-toggle="collapse"
-          data-target="#navbarSupportedContent"
-          aria-controls="navbarSupportedContent"
-          aria-expanded="false"
-          aria-label="Toggle navigation">
-          <span class="navbar-toggler-icon"></span>
-        </button>
-
-        <!--Nav-Links-->
-
-        <div class="collapse navbar-collapse" id="navbarSupportedContent">
-          <ul class="navbar-nav ml-auto">
-            <li class="nav-item">
-              <a class="nav-link" href="/register">Sign Up</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="/login">Login</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="/">Top Charts</a>
-            </li>
-          </ul>
-        </div>
-      </nav>
-
-        <div class="container-login100" style="background-image: url({% static 'images/login-registration.png' %});">
-            <div class="wrap-login100 p-l-55 p-r-55 p-t-80 p-b-30 ">
-                <form class="login100-form validate-form" style="padding: 5% 3% 5% 7%;" method="POST">
-                    <span class="login100-form-title p-b-37">
-                        Sign Up
-                    </span>
-                    {% csrf_token %}
-                    {{form|crispy}}
-                    <br><div class="container-login100-form-btn">
-                        <button class="login100-form-btn" type="submit">
-                            Sign Up
-                        </button>
-                    </div>
-                </form>
-    
-            </div>
-        </div>
-        
-        <!--div class="wrapper fadeInDown">
-            <div id="formContent">
-              <!-- Tabs Titles -->
-              <!--h2 class="active"> Sign Up </h2>
-
-
-              <!-- Icon -->
-              <!--div class="fadeIn first">
-                        <a href="/"><img src="{% static '4.png' %}" id="icon" alt="User Icon" /></a>
-      </div>
-      
-    
-      <form method="post">
-        <form method="POST" class="form-group">
-            {% csrf_token %}
-            {{form|crispy}}
-            <br><input class = "regbutton" type="submit" value ="Register"></input>
-        </form>
-      </form>
-      <!-- Registration Form -->
-
-            <!--/div>
-      </div-->
-    </body>
-</html>
+{% block title %}Sign up · watchNext{% endblock %}
+{% block body %}
+<main class="auth-wrap">
+  <div class="auth-card">
+    <h1>Create account</h1>
+    <p class="sub">It takes 20 seconds. Or just browse as a guest.</p>
+    <form method="post">
+      {% csrf_token %}
+      {{ form|crispy }}
+      <button type="submit" class="btn-wn">Sign up</button>
+    </form>
+    <p class="alt">Already have an account? <a href="/login/">Log in</a></p>
+    <p class="alt" style="margin-top:6px"><a href="/index/">Continue as guest →</a></p>
+  </div>
+</main>
+{% endblock %}

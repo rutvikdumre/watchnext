@@ -1,0 +1,15 @@
+{% if picks %}
+<h2 class="section-title" id="ranzol-picks">Because you like {{ movie.title }}, <span class="accent-2">ranzol</span> suggests</h2>
+<div class="poster-grid">
+  {% for title, img, tid in picks %}
+  <a class="poster-card" href="/detail/{% if tid %}{{ tid }}{% else %}{{ title|urlencode }}{% endif %}" data-loading>
+    <div class="poster"><img src="{{ img }}" alt="{{ title }} poster" loading="lazy"></div>
+    <div class="name">{{ title }}</div>
+  </a>
+  {% endfor %}
+</div>
+{% endif %}
+{% if similar %}
+<h2 class="section-title">Fans of {{ movie.title }} also watch</h2>
+{% include 'main/_posters.html' with movies=similar %}
+{% endif %}

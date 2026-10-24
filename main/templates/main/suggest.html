@@ -1,35 +1,6 @@
 {% extends 'main/base.html' %}
-{% load static %}
+{% block title %}Like {{ movie.title }}? · watchNext{% endblock %}
 {% block content %}
-        <div class="container-genre" style="background-image: url({% static 'images/topcharts.png' %});">
-            <div class="wrap-genre p-l-55 p-r-55 p-t-80 p-b-30 " style="width: 75vw;">
-                <div class="card genre-div">
-                    <span class="genre-div-title p-b-37" style="margin: 2.5% 2%;">
-                        As you like {{name}} you should also watch
-                    </span>
-                    <div class="row" style="padding: 3% 3%;">
-                      {% for i,k in Movies %}
-                      <div class="card col-lg-2 col-md-4 col-sm-6 col-xs-12" style="text-align: center;">
-                        <img src="{{k}}" class="card-img-top" alt="..." style="margin-top: 2%;">
-                        <div class="card-body">
-                          <a href="/detail/{{i}}"class="card-text">{{i}}</a>
-                        </div>
-                      </div>
-                      {% endfor %}
-                    </div>
-                    <br>
-                </div>
-    
-            </div>
-        </div>
-        
-    </body>
-
+{% include 'main/_movie_header.html' with full=False %}
+{% include 'main/_picks.html' %}
 {% endblock %}
-</html>
-
-
-
-
-
-
