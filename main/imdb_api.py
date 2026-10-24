@@ -151,19 +151,21 @@ def search(query, limit=8, known_titles=()):
             if len(results) >= limit:
                 break
 
-    # Rank by IMDb popularity, favouring exact title matches and feature films,
-    # so 'interstelar' finds Interstellar before an obscure film called Interstelar.
+    # Blend IMDb's own match order with popularity, favouring exact titles and
+    # feature films: 'interstelar' finds Interstellar before an obscure film
+    # called Interstelar, while 'two towers' still beats the more popular Fellowship.
     q = normalize(query)
 
-    def score(item):
-        s = item['popularity']
+    def score(pair):
+        position, item = pair
+        s = item['popularity'] * (position + 1) ** 2
         if normalize(item['title']) == q:
             s /= 20
         if item['kind'] not in ('feature', 'TV movie'):
             s *= 5
         return s
 
-    results.sort(key=score)
+    results = [item for _, item in sorted(enumerate(results), key=score)]
     return results[:limit]
 
 
