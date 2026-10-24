@@ -135,6 +135,6 @@ def genreSearch(genre):
         if genre in filmObj.get('genres'):
             listOfMovies.append({'name':filmObj.get('title'),'year':filmObj.get('year'),'picurl':filmObj.get('cover url')})
             if listOfMovies[ctr]['picurl']==None:
-                listOfMovies[ctr]['picurl']="https://watch--next.herokuapp.com/static/default.png"
+                listOfMovies[ctr]['picurl']="/static/default.png"
             ctr+=1
     return listOfMovies

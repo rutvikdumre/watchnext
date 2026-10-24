@@ -1,0 +1,12 @@
+services:
+  - type: web
+    name: watchnext
+    runtime: python
+    plan: free
+    buildCommand: ./build.sh
+    startCommand: gunicorn watchnext.wsgi --timeout 120
+    envVars:
+      - key: SECRET_KEY
+        generateValue: true
+      - key: DEBUG
+        value: "False"

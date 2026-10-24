@@ -122,7 +122,7 @@ def searchMovie(movie_name_string):
         movIDList[i]=ia.get_movie(movIDList[i])
         movIDList[i]={'name':movIDList[i].get('title'),'year':movIDList[i].get('year'),'picurl':movIDList[i].get('cover url')}
         if movIDList[i]['picurl']==None:
-            movIDList[i]['picurl']="https://watch--next.herokuapp.com/static/default.png"
+            movIDList[i]['picurl']="/static/default.png"
     return movIDList[0:4]
 
 def get_details(movie_name):
@@ -169,7 +169,7 @@ def genreSearch(genre):
         filmObj = ia.get_movie(filmID)
         listOfMovies.append({'name':filmObj.get('title'),'year':filmObj.get('year'),'picurl':filmObj.get('cover url')})
         if listOfMovies[i]['picurl']==None:
-            listOfMovies[i]['picurl']="https://watch--next.herokuapp.com/static/default.png"
+            listOfMovies[i]['picurl']="/static/default.png"
     return listOfMovies
     # for i in range(6):
     #     filmID = ia.search_movie(data.values[i][0])[0].movieID
@@ -177,5 +177,5 @@ def genreSearch(genre):
     #     listOfMovies.append(filmObj)
     #     listOfMovies[i]={'name':filmObj['title'],'year':filmObj['year'],'picurl':filmObj['cover url']}
     #     if listOfMovies[i]['picurl']==None:
-    #         listOfMovies[i]['picurl']="https://watch--next.herokuapp.com/static/default.png"
+    #         listOfMovies[i]['picurl']="/static/default.png"
     # return listOfMovies

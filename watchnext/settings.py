@@ -10,7 +10,10 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/3.1/ref/settings/
 """
 
+import os
 from pathlib import Path
+
+import dj_database_url
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -20,10 +23,10 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djngoproject.com/en/3.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = '+7i$tae=xcp#0@36bwvk+s$!cib)z!6of=pdgf)pc4xeow-gz7'
+SECRET_KEY = os.environ.get('SECRET_KEY', '+7i$tae=xcp#0@36bwvk+s$!cib)z!6of=pdgf)pc4xeow-gz7')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = os.environ.get('DEBUG', 'True') == 'True'
 
 
 
@@ -39,6 +42,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'main.apps.MainConfig',
     'crispy_forms',
+    'crispy_bootstrap4',
     'register.apps.RegisterConfig',
 ]
 
@@ -113,26 +117,26 @@ TIME_ZONE = 'UTC'
 
 USE_I18N = True
 
-USE_L10N = True
-
 USE_TZ = True
 
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.1/howto/static-files/
 
-import os
-import dj_database_url
-db_from_env = dj_database_url.config(conn_max_age=500)
-DATABASES['default'].update(db_from_env)
+DATABASES['default'].update(dj_database_url.config(conn_max_age=500))
+DEFAULT_AUTO_FIELD = 'django.db.models.AutoField'
+
 STATIC_URL = '/static/'
-STATICFILES_DIRS = [
-        os.path.join(BASE_DIR, "static"),
-    ]
+STATICFILES_DIRS = [os.path.join(BASE_DIR, "static")]
 STATIC_ROOT = os.path.join(BASE_DIR, "staticfiles")
-STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage' 
-    # end }
-CRISPY_TEMPLATE_PACK='bootstrap4'
-LOGIN_REDIRECT_URL='/'
-ALLOWED_HOSTS = ['test-wn.herokuapp.com','127.0.0.1:8000','127.0.0.1','watch--next.herokuapp.com','test-watchnext.herokuapp.com']
+STORAGES = {
+    "default": {"BACKEND": "django.core.files.storage.FileSystemStorage"},
+    "staticfiles": {"BACKEND": "whitenoise.storage.CompressedStaticFilesStorage"},
+}
+
+CRISPY_ALLOWED_TEMPLATE_PACKS = 'bootstrap4'
+CRISPY_TEMPLATE_PACK = 'bootstrap4'
 LOGIN_REDIRECT_URL = 'index'
+
+ALLOWED_HOSTS = ['127.0.0.1', 'localhost', '.onrender.com', '.up.railway.app']
+CSRF_TRUSTED_ORIGINS = ['https://*.onrender.com', 'https://*.up.railway.app']
