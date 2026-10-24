@@ -91,6 +91,7 @@ def _suggest(query):
             'kind': item.get('q', ''),
             'cast': item.get('s', ''),
             'poster': poster((item.get('i') or {}).get('imageUrl'), 300),
+            'popularity': item.get('rank') or 10 ** 9,  # lower = more popular
         })
     return tuple(results)
 
@@ -114,11 +115,11 @@ def _variants(query):
     return [v for v in out if v and v != q]
 
 
-def _local_matches(query, titles, n=3):
-    """Fuzzy match against titles we know (catches bad typos)."""
+def _local_matches(query, titles, n=2):
+    """Close spellings of titles we know, e.g. 'the dark night' -> 'The Dark Knight'."""
     q = normalize(query)
     by_norm = {normalize(t): t for t in titles}
-    return [by_norm[m] for m in difflib.get_close_matches(q, list(by_norm), n=n, cutoff=0.6)]
+    return [by_norm[m] for m in difflib.get_close_matches(q, list(by_norm), n=n, cutoff=0.8) if m != q]
 
 
 def search(query, limit=8, known_titles=()):
@@ -135,8 +136,14 @@ def search(query, limit=8, known_titles=()):
                 results.append(item)
 
     add(_suggest(query))
+    # Close spellings of well-known movies (typos IMDb's search misses).
+    for alt in _local_matches(query, known_titles):
+        try:
+            add(_suggest(alt)[:1])
+        except IMDbError:
+            pass
     if len(results) < 3:
-        for alt in _variants(query) + _local_matches(query, known_titles):
+        for alt in _variants(query):
             try:
                 add(_suggest(alt))
             except IMDbError:
@@ -144,28 +151,38 @@ def search(query, limit=8, known_titles=()):
             if len(results) >= limit:
                 break
 
-    # Exact title matches first, then movies, then IMDb's own order.
+    # Rank by IMDb popularity, favouring exact title matches and feature films,
+    # so 'interstelar' finds Interstellar before an obscure film called Interstelar.
     q = normalize(query)
 
-    def rank(pair):
-        pos, item = pair
-        exact = normalize(item['title']) == q
-        return (not exact, item['kind'] not in ('feature', 'TV movie'), pos)
+    def score(item):
+        s = item['popularity']
+        if normalize(item['title']) == q:
+            s /= 20
+        if item['kind'] not in ('feature', 'TV movie'):
+            s *= 5
+        return s
 
-    results = [item for _, item in sorted(enumerate(results), key=rank)]
+    results.sort(key=score)
     return results[:limit]
 
 
-def best_match(query, known_titles=()):
-    results = search(query, limit=5, known_titles=known_titles)
+def best_match(query, known_titles=(), year=None):
+    results = search(query, limit=8, known_titles=known_titles)
+    if year:
+        same_year = [r for r in results if str(r['year']) == str(year)]
+        if same_year:
+            return same_year[0]
     return results[0] if results else None
 
 
-def posters_for(titles, width=400):
+def posters_for(titles, width=400, years=None):
     """Find posters for many titles in parallel. Returns {title: (id, poster)}."""
+    years = years or {}
+
     def one(title):
         try:
-            hit = best_match(title)
+            hit = best_match(title, year=years.get(title))
         except IMDbError:
             hit = None
         if not hit:

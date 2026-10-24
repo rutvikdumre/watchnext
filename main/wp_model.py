@@ -43,6 +43,13 @@ def known_titles():
     return tuple(model()[0]['title'])
 
 
+def _year(value):
+    try:
+        return int(float(value))
+    except (TypeError, ValueError):
+        return None
+
+
 def titles_by_genre(genre, n=12):
     df = model()[0]
     return list(df[df.genre.str.lower() == genre.lower()]['title'][:n])
@@ -80,6 +87,7 @@ def recommend(d, n=6):
         vector = vectorizer.transform([_row_from_details(d)])
     scores = cosine_similarity(vector, matrix)[0]
     ranked = sorted(range(len(scores)), key=lambda i: scores[i], reverse=True)
-    titles = [df.at[i, 'title'] for i in ranked if df.at[i, 'norm'] != norm][:n]
-    found = imdb_api.posters_for(titles)
+    rows = [i for i in ranked if df.at[i, 'norm'] != norm][:n]
+    titles = [df.at[i, 'title'] for i in rows]
+    found = imdb_api.posters_for(titles, years={df.at[i, 'title']: _year(df.at[i, 'year']) for i in rows})
     return [[t, found[t][1], found[t][0]] for t in titles]
