@@ -1,13 +1,19 @@
-import time
-from main import imdb_api, wp_model
-kt = wp_model.known_titles()
-for q in ['inception', 'interstelar', 'godfather part 2', 'the dark night', 'shawshank redemtion', 'amelie', '3 idiots', 'lord of the rings two towers', 'spirited away', 'parasite', 'xqzvj', 'the kid', 'pulp fction', 'avengers endgame', 'dangal', 'the prestige']:
-    t = time.time(); r = imdb_api.search(q, known_titles=kt)
-    print('SEARCH %-30r %.2fs ->' % (q, time.time() - t), [(x['title'], x['year'], x['kind']) for x in r[:3]])
-for tid in ['tt1375666']:
-    t = time.time(); d = imdb_api.details(tid)
-    print('DETAIL', d['title'], d['year'], d['rating'], d['runtime'], d['genres'], d['directors'], d['cast'][:2], d['poster'][-30:], len(d['similar']))
-    p = wp_model.recommend(d); print('  RANZOL %.2fs' % (time.time() - t), [(x[0], x[2], x[1][-25:]) for x in p])
-import urllib.request
-u = imdb_api.details('tt1375666')['poster']
-print('POSTER GET', urllib.request.urlopen(urllib.request.Request(u, headers=imdb_api.HEADERS), timeout=20).status, u)
+import json, time, urllib.request
+for base in ['https://watchnext.onrender.com']:
+    for path in ['/', '/api/suggest?q=interstelar', '/detail/tt1375666']:
+        for attempt in range(3):  # free plan may be asleep
+            try:
+                t = time.time()
+                req = urllib.request.Request(base + path, headers={'User-Agent': 'Mozilla/5.0'})
+                with urllib.request.urlopen(req, timeout=90) as r:
+                    body = r.read().decode('utf-8', 'replace')
+                    print(base + path, r.status, '%.1fs' % (time.time() - t))
+                    if path == '/':
+                        print('  new build (guest button):', 'Continue as guest' in body, '| title:', body.split('<title>')[1].split('</title>')[0] if '<title>' in body else '?')
+                    elif path.startswith('/api'):
+                        print('  ', [(m['title'], m['year']) for m in json.loads(body)['results'][:3]])
+                    else:
+                        print('  has plot:', 'dream-sharing' in body, '| ranzol picks:', 'ranzol' in body, '| hi-res poster:', 'QL80_UX600' in body)
+                break
+            except Exception as e:
+                print(base + path, 'ERR', repr(e)[:200]); time.sleep(10)
