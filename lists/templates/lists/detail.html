@@ -1,0 +1,72 @@
+{% extends 'main/base.html' %}
+{% block title %}{{ watchlist.name }} · watchNext{% endblock %}
+{% block content %}
+<div class="wl-head">
+  <div>
+    <h1 class="page-title">{{ watchlist.name }}</h1>
+    <div class="members">
+      {% for m in members %}<span class="member{% if m == me %} me{% endif %}">{{ m.name }}{% if m == me %} (you){% endif %}</span>{% endfor %}
+    </div>
+  </div>
+  <button class="btn-wn light share-btn" type="button" data-share="{{ invite_url }}" data-share-title="Join my watchlist “{{ watchlist.name }}” on watchNext">Invite</button>
+</div>
+
+{% if is_new %}
+<div class="panel invite-panel">
+  <strong>Your list is ready. Now invite your partner or friends.</strong>
+  <p class="hint" style="margin:4px 0 10px">Anyone with this link can join and vote.</p>
+  <div class="copy-row"><input type="text" value="{{ invite_url }}" readonly aria-label="Invite link"><button class="btn-wn" type="button" data-share="{{ invite_url }}" data-share-title="Join my watchlist “{{ watchlist.name }}” on watchNext">Share</button></div>
+</div>
+{% endif %}
+
+{% if pick %}
+<div class="pick-card" id="pick">
+  <img src="{{ pick.poster }}" alt="">
+  <div>
+    <p class="eyebrow">ranzol picked tonight's movie 🎬</p>
+    <h2>{{ pick.title }} <span class="muted">{{ pick.year }}</span></h2>
+    <div class="btn-row" style="margin-top:12px">
+      <a class="btn-wn" href="/detail/{{ pick.imdb_id }}" data-loading>Details</a>
+      <form method="post" action="{% url 'lists:pick' watchlist.code %}">{% csrf_token %}<button class="btn-wn ghost" type="submit">Pick again</button></form>
+    </div>
+  </div>
+</div>
+{% endif %}
+
+<div class="search-box add-box" data-autocomplete="add" data-add-action="{% url 'lists:add' watchlist.code %}">
+  <form method="get" action="/search/" role="search">
+    <input type="search" name="q" placeholder="Add a movie…" aria-label="Add a movie" aria-autocomplete="list" aria-expanded="false">
+  </form>
+  <ul class="ac-list" hidden></ul>
+  <form method="post" action="{% url 'lists:add' watchlist.code %}" class="d-none" data-add-form>{% csrf_token %}<input type="hidden" name="imdb_id"></form>
+</div>
+
+<nav class="tabs" aria-label="Watchlist sections">
+  <a class="tab{% if tab == 'towatch' %} active{% endif %}" href="?tab=towatch">To watch <span>{{ counts.towatch }}</span></a>
+  <a class="tab{% if tab == 'matches' %} active{% endif %}" href="?tab=matches">💞 Matches <span>{{ counts.matches }}</span></a>
+  <a class="tab{% if tab == 'watched' %} active{% endif %}" href="?tab=watched">Watched <span>{{ counts.watched }}</span></a>
+</nav>
+
+{% if tab == 'towatch' and counts.towatch %}
+<form method="post" action="{% url 'lists:pick' watchlist.code %}" class="pick-row">{% csrf_token %}
+  <button class="btn-wn" type="submit">🎲 Pick tonight's movie</button>
+</form>
+{% endif %}
+
+<div class="wl-items" id="wl-items" data-state-url="{% url 'lists:state' watchlist.code %}" data-version="{{ version }}">
+  {% for item in shown %}
+    {% include 'lists/_item.html' %}
+  {% empty %}
+    <div class="empty-state">
+      {% if tab == 'matches' %}
+        {% if members|length < 2 %}Invite someone to find movies you both want to watch.{% else %}No matches yet. Movies everyone gives a 👍 show up here.{% endif %}
+      {% elif tab == 'watched' %}Nothing watched yet. Tap “✓ Watched” after movie night.
+      {% else %}No movies yet. Search above, or tap “Add to watchlist” on any movie page.{% endif %}
+    </div>
+  {% endfor %}
+</div>
+
+<form method="post" action="{% url 'lists:leave' watchlist.code %}" class="leave-row" data-confirm="Leave “{{ watchlist.name }}”?">{% csrf_token %}
+  <button class="text-btn muted" type="submit">Leave this list</button>
+</form>
+{% endblock %}

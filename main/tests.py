@@ -60,7 +60,8 @@ def fake_details(tid='tt1375666', title='Inception'):
 def fake_request(url, data=None, headers=None):
     if data:  # GraphQL
         tid = json.loads(data)['variables']['id']
-        return fake_details(tid)
+        titles = {i['id']: i['l'] for items in SUGGESTIONS.values() for i in items}
+        return fake_details(tid, titles.get(tid, 'Inception'))
     query = url.split('/x/')[1].split('.json')[0].replace('%20', ' ')
     if query in SUGGESTIONS:
         return {'d': SUGGESTIONS[query]}

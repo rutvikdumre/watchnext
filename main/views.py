@@ -4,6 +4,8 @@ from django.contrib.auth import logout
 from django.http import Http404, JsonResponse
 from django.shortcuts import redirect, render
 
+from lists.identity import my_lists
+
 from . import imdb_api, wp_model
 from .charts import TOP_CHARTS
 
@@ -98,8 +100,11 @@ def _movie_page(request, name, template, mode):
         picks = wp_model.recommend(movie)
     except imdb_api.IMDbError:
         return render(request, 'main/search.html', {'mode': mode, 'q': name, 'results': [], 'msg': IMDB_DOWN})
+    lists = list(my_lists(request))
+    on_lists = {wl.code for wl in lists if wl.items.filter(imdb_id=movie['id']).exists()}
     return render(request, template, {
         'movie': movie, 'picks': picks, 'similar': movie['similar'][:6],
+        'my_lists': lists, 'on_lists': on_lists,
     })
 
 

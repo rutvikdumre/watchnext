@@ -28,6 +28,7 @@
         <li class="nav-item"><a class="nav-link {% if request.path == '/suggest/' %}active{% endif %}" href="/suggest/">Recommendations</a></li>
         <li class="nav-item"><a class="nav-link {% if '/topcharts/' in request.path %}active{% endif %}" href="/topcharts/Action">Top Charts</a></li>
         <li class="nav-item"><a class="nav-link {% if request.path == '/surprise' %}active{% endif %}" href="/surprise">Surprise Me</a></li>
+        <li class="nav-item"><a class="nav-link {% if '/lists/' in request.path %}active{% endif %}" href="/lists/">Watchlists</a></li>
         {% if user.is_authenticated %}
           <li class="nav-item d-lg-none"><span class="nav-user d-block">Signed in as {{ user.username }}</span></li>
           <li class="nav-item"><a class="nav-link" href="/logout/">Logout</a></li>
@@ -38,6 +39,12 @@
       </ul>
     </div>
   </nav>
+
+  {% if messages %}
+  <div class="toasts" role="status">
+    {% for m in messages %}<div class="toast-msg {{ m.tags }}">{{ m }}</div>{% endfor %}
+  </div>
+  {% endif %}
 
   {% block body %}
   <main class="page">

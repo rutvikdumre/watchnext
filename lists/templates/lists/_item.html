@@ -1,0 +1,33 @@
+<article class="wl-item{% if item.is_match %} is-match{% endif %}" id="item-{{ item.id }}">
+  <a class="wl-item-poster" href="/detail/{{ item.imdb_id }}" data-loading><img src="{{ item.poster }}" alt="" loading="lazy"></a>
+  <div class="wl-item-body">
+    <a class="wl-item-title" href="/detail/{{ item.imdb_id }}" data-loading>{{ item.title }}</a>
+    <div class="wl-item-meta">{{ item.year }}{% if item.added_by %} · added by {{ item.added_by.name }}{% endif %}</div>
+    {% if item.is_match %}<div class="match-badge">💞 Everyone wants this</div>{% endif %}
+    {% if item.wants or item.passes %}
+    <div class="wl-voters">
+      {% for m in item.wants %}<span class="voter want" title="{{ m.name }} wants to watch">{{ m.name|slice:":1"|upper }}</span>{% endfor %}
+      {% for m in item.passes %}<span class="voter pass" title="{{ m.name }} passed">{{ m.name|slice:":1"|upper }}</span>{% endfor %}
+    </div>
+    {% endif %}
+    <div class="wl-actions">
+      {% if not item.watched_at %}
+      <form method="post" action="{% url 'lists:vote' watchlist.code item.id %}" data-ajax>
+        {% csrf_token %}<input type="hidden" name="value" value="want">
+        <button class="vote-btn{% if item.my_vote == 1 %} on{% endif %}" aria-pressed="{% if item.my_vote == 1 %}true{% else %}false{% endif %}">👍 {{ item.wants|length }}</button>
+      </form>
+      <form method="post" action="{% url 'lists:vote' watchlist.code item.id %}" data-ajax>
+        {% csrf_token %}<input type="hidden" name="value" value="pass">
+        <button class="vote-btn pass{% if item.my_vote == -1 %} on{% endif %}" aria-pressed="{% if item.my_vote == -1 %}true{% else %}false{% endif %}">👎 {{ item.passes|length }}</button>
+      </form>
+      {% endif %}
+      <form method="post" action="{% url 'lists:watched' watchlist.code item.id %}" data-ajax>
+        {% csrf_token %}
+        <button class="text-btn">{% if item.watched_at %}↩ Not watched{% else %}✓ Watched{% endif %}</button>
+      </form>
+      <form method="post" action="{% url 'lists:remove' watchlist.code item.id %}" data-ajax data-confirm="Remove {{ item.title }} from the list?">
+        {% csrf_token %}<button class="text-btn muted" aria-label="Remove">Remove</button>
+      </form>
+    </div>
+  </div>
+</article>

@@ -1,0 +1,37 @@
+{% extends 'main/base.html' %}
+{% block title %}Watchlists · watchNext{% endblock %}
+{% block content %}
+<h1 class="page-title">Shared watchlists</h1>
+<p class="page-sub">Make a list with your partner or friends, vote on movies, and let ranzol pick tonight's movie.</p>
+
+{% if lists %}
+<div class="wl-grid">
+  {% for wl in lists %}
+  <a class="wl-card" href="{% url 'lists:detail' wl.code %}">
+    <div class="wl-posters">
+      {% for item in wl.to_watch|slice:":4" %}<img src="{{ item.poster }}" alt="" loading="lazy">{% empty %}<div class="wl-empty">🍿</div>{% endfor %}
+    </div>
+    <div class="wl-body">
+      <strong>{{ wl.name }}</strong>
+      <span>{{ wl.to_watch|length }} to watch · {% for m in wl.members.all %}{{ m.name }}{% if not forloop.last %}, {% endif %}{% endfor %}</span>
+    </div>
+  </a>
+  {% endfor %}
+</div>
+{% endif %}
+
+<form class="panel" method="post" action="{% url 'lists:create' %}">
+  {% csrf_token %}
+  <h2 class="section-title" style="margin-top:0">{% if lists %}Start another list{% else %}Start your first list{% endif %}</h2>
+  <label class="field">List name
+    <input type="text" name="name" maxlength="80" placeholder="Date night 🍿" required>
+  </label>
+  {% if not user.is_authenticated %}
+  <label class="field">Your name
+    <input type="text" name="your_name" maxlength="40" placeholder="So friends know who added what" value="{{ default_name }}" required>
+  </label>
+  {% endif %}
+  <button class="btn-wn" type="submit">Create list</button>
+  {% if not user.is_authenticated %}<p class="hint">You're a guest, so your lists are saved on this device. <a href="/register/">Sign up</a> to reach them anywhere.</p>{% endif %}
+</form>
+{% endblock %}

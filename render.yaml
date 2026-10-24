@@ -10,3 +10,7 @@ services:
         generateValue: true
       - key: DEBUG
         value: "False"
+      # Free Postgres from neon.tech (or any Postgres URL). Without it, data lives in
+      # SQLite on Render's temporary disk and is wiped whenever the server restarts.
+      - key: DATABASE_URL
+        sync: false

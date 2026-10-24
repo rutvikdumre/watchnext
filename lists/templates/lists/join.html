@@ -1,0 +1,20 @@
+{% extends 'main/base.html' %}
+{% block title %}Join {{ watchlist.name }} · watchNext{% endblock %}
+{% block content %}
+<div class="join-card">
+  <p class="eyebrow">You're invited to a watchlist</p>
+  <h1 class="page-title">{{ watchlist.name }}</h1>
+  <p class="page-sub">With {% for m in members %}{{ m.name }}{% if not forloop.last %}, {% endif %}{% endfor %} · {{ count }} movie{{ count|pluralize }}</p>
+  {% if preview %}
+  <div class="join-posters">{% for item in preview %}<img src="{{ item.poster }}" alt="{{ item.title }}" loading="lazy">{% endfor %}</div>
+  {% endif %}
+  <form method="post" class="panel">
+    {% csrf_token %}
+    <label class="field">Your name
+      <input type="text" name="your_name" maxlength="40" value="{{ default_name }}" placeholder="e.g. Sam" required autofocus>
+    </label>
+    <button class="btn-wn" type="submit">Join the list</button>
+    <p class="hint">No account needed.</p>
+  </form>
+</div>
+{% endblock %}

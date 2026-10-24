@@ -44,6 +44,7 @@ INSTALLED_APPS = [
     'crispy_forms',
     'crispy_bootstrap4',
     'register.apps.RegisterConfig',
+    'lists.apps.ListsConfig',
 ]
 
 MIDDLEWARE = [
@@ -123,7 +124,10 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.1/howto/static-files/
 
-DATABASES['default'].update(dj_database_url.config(conn_max_age=500))
+DATABASES['default'].update(dj_database_url.config(conn_max_age=600, conn_health_checks=True))
+
+# Render terminates HTTPS in front of the app; trust its header so invite links use https.
+SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
 DEFAULT_AUTO_FIELD = 'django.db.models.AutoField'
 
 STATIC_URL = '/static/'

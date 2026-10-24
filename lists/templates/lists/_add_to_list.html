@@ -1,0 +1,25 @@
+<div class="add-to-list" id="add-to-list">
+  {% if my_lists %}
+  <form method="post" class="add-row" action="{% url 'lists:add' my_lists.0.code %}" data-pick-list>
+    {% csrf_token %}
+    <input type="hidden" name="imdb_id" value="{{ movie.id }}">
+    <input type="hidden" name="next" value="{{ request.get_full_path }}#add-to-list">
+    {% if my_lists|length > 1 %}
+    <select aria-label="Choose a watchlist" data-list-select>
+      {% for wl in my_lists %}<option value="{% url 'lists:add' wl.code %}">{{ wl.name }}{% if wl.code in on_lists %} ✓{% endif %}</option>{% endfor %}
+    </select>
+    {% endif %}
+    <button class="btn-wn light" type="submit">＋ Add to {% if my_lists|length == 1 %}“{{ my_lists.0.name }}”{% else %}watchlist{% endif %}</button>
+  </form>
+  {% if on_lists %}<p class="hint">Already on: {% for wl in my_lists %}{% if wl.code in on_lists %}<a href="{% url 'lists:detail' wl.code %}">{{ wl.name }}</a>{% if not forloop.last %}, {% endif %}{% endif %}{% endfor %}</p>{% endif %}
+  {% else %}
+  <form method="post" class="add-row" action="{% url 'lists:create' %}">
+    {% csrf_token %}
+    <input type="hidden" name="imdb_id" value="{{ movie.id }}">
+    <input type="hidden" name="name" value="Our watchlist">
+    {% if not user.is_authenticated %}<input type="text" name="your_name" maxlength="40" placeholder="Your name" aria-label="Your name" required>{% endif %}
+    <button class="btn-wn light" type="submit">＋ Start a shared watchlist</button>
+  </form>
+  <p class="hint">Watch it together: make a list, invite your partner or friends, and vote.</p>
+  {% endif %}
+</div>

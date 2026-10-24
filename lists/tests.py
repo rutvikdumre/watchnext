@@ -1,0 +1,119 @@
+from unittest import mock
+
+from django.contrib.auth.models import User
+from django.test import Client, TestCase
+
+from main import imdb_api
+from main.tests import fake_request
+
+from .models import Item, Member, Vote, WatchList
+
+FETCH = {'HTTP_X_REQUESTED_WITH': 'fetch'}
+
+
+@mock.patch('main.imdb_api._request', side_effect=fake_request)
+class WatchlistFlowTests(TestCase):
+    def setUp(self):
+        imdb_api._suggest.cache_clear()
+        imdb_api.details.cache_clear()
+        self.alex = Client()   # guest who creates the list
+        self.sam = Client()    # partner who joins with the invite link
+
+    def make_list(self):
+        resp = self.alex.post('/lists/new', {'name': 'Date night', 'your_name': 'Alex'})
+        watchlist = WatchList.objects.get()
+        self.assertRedirects(resp, '/lists/%s/?new=1' % watchlist.code, fetch_redirect_response=False)
+        return watchlist
+
+    def join(self, watchlist, client=None, name='Sam'):
+        client = client or self.sam
+        return client.post('/lists/join/%s' % watchlist.code, {'your_name': name})
+
+    def test_guest_creates_list_and_partner_joins(self, _):
+        wl = self.make_list()
+        page = self.alex.get('/lists/%s/?new=1' % wl.code)
+        self.assertContains(page, 'Now invite your partner or friends')
+        self.assertContains(page, '/lists/join/%s' % wl.code)
+
+        # Sam isn't a member yet: the list redirects to the invite page.
+        self.assertRedirects(self.sam.get('/lists/%s/' % wl.code), '/lists/join/%s' % wl.code)
+        self.assertContains(self.sam.get('/lists/join/%s' % wl.code), 'Date night')
+        self.join(wl)
+        self.assertEqual([m.name for m in wl.members.all()], ['Alex', 'Sam'])
+        self.assertContains(self.sam.get('/lists/'), 'Date night')
+
+    def test_add_vote_match_watch_flow(self, _):
+        wl = self.make_list()
+        self.join(wl)
+        self.alex.post('/lists/%s/add' % wl.code, {'imdb_id': 'tt1375666'})
+        item = Item.objects.get()
+        self.assertEqual(item.title, 'Inception')
+        self.assertEqual(item.added_by.name, 'Alex')
+        # The person who adds a movie wants to watch it.
+        self.assertEqual(Vote.objects.get().value, Vote.WANT)
+
+        # Not a match until Sam also wants it.
+        self.assertContains(self.alex.get('/lists/%s/?tab=matches' % wl.code), 'No matches yet')
+        resp = self.sam.post('/lists/%s/items/%d/vote' % (wl.code, item.id), {'value': 'want'}, **FETCH)
+        self.assertContains(resp, 'Everyone wants this')
+        self.assertContains(self.alex.get('/lists/%s/?tab=matches' % wl.code), 'Inception')
+
+        # Tapping the same vote again clears it.
+        self.sam.post('/lists/%s/items/%d/vote' % (wl.code, item.id), {'value': 'want'}, **FETCH)
+        self.assertEqual(item.votes.count(), 1)
+
+        # Pick tonight's movie, then mark it watched.
+        resp = self.alex.post('/lists/%s/pick' % wl.code)
+        self.assertRedirects(resp, '/lists/%s/?pick=%d' % (wl.code, item.id), fetch_redirect_response=False)
+        self.assertContains(self.alex.get(resp.url), "picked tonight")
+        self.sam.post('/lists/%s/items/%d/watched' % (wl.code, item.id))
+        self.assertContains(self.alex.get('/lists/%s/?tab=watched' % wl.code), 'Inception')
+
+    def test_duplicate_add_is_ignored(self, _):
+        wl = self.make_list()
+        for _i in range(2):
+            self.alex.post('/lists/%s/add' % wl.code, {'imdb_id': 'tt1375666'})
+        self.assertEqual(wl.items.count(), 1)
+
+    def test_strangers_cannot_change_a_list(self, _):
+        wl = self.make_list()
+        self.alex.post('/lists/%s/add' % wl.code, {'imdb_id': 'tt1375666'})
+        item = Item.objects.get()
+        stranger = Client()
+        for url in ['/lists/%s/add' % wl.code, '/lists/%s/items/%d/vote' % (wl.code, item.id),
+                    '/lists/%s/items/%d/remove' % (wl.code, item.id), '/lists/%s/pick' % wl.code]:
+            with self.subTest(url=url):
+                self.assertEqual(stranger.post(url, {'imdb_id': 'tt0816692', 'value': 'pass'}).status_code, 404)
+        self.assertEqual(stranger.get('/lists/%s/state' % wl.code).status_code, 404)
+        self.assertEqual(wl.items.count(), 1)
+
+    def test_add_from_movie_page_for_logged_in_user(self, _):
+        User.objects.create_user('neo', password='Xq9!zzLongPass')
+        self.alex.login(username='neo', password='Xq9!zzLongPass')
+        page = self.alex.get('/detail/tt1375666')
+        self.assertContains(page, 'Start a shared watchlist')
+        # Logged-in users don't need to type a name.
+        self.alex.post('/lists/new', {'name': 'Our watchlist', 'imdb_id': 'tt1375666'})
+        wl = WatchList.objects.get()
+        self.assertEqual(wl.members.get().name, 'neo')
+        self.assertEqual(wl.items.get().imdb_id, 'tt1375666')
+        page = self.alex.get('/detail/tt1375666')
+        self.assertContains(page, 'Already on')
+
+    def test_live_update_version_changes(self, _):
+        wl = self.make_list()
+        before = self.alex.get('/lists/%s/state' % wl.code).json()['version']
+        self.alex.post('/lists/%s/add' % wl.code, {'imdb_id': 'tt1375666'})
+        after = self.alex.get('/lists/%s/state' % wl.code).json()['version']
+        self.assertNotEqual(before, after)
+
+    def test_last_member_leaving_deletes_list(self, _):
+        wl = self.make_list()
+        self.alex.post('/lists/%s/leave' % wl.code)
+        self.assertFalse(WatchList.objects.exists())
+        self.assertFalse(Member.objects.exists())
+
+    def test_redirects_only_to_this_site(self, _):
+        wl = self.make_list()
+        resp = self.alex.post('/lists/%s/add' % wl.code, {'imdb_id': 'tt1375666', 'next': 'https://evil.example/'})
+        self.assertEqual(resp.url, '/lists/%s/' % wl.code)
