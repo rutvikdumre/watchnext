@@ -1,15 +1,7 @@
 {% extends 'main/base.html' %}
 {% block title %}{{ watchlist.name }} · watchNext{% endblock %}
 {% block content %}
-<div class="wl-head">
-  <div>
-    <h1 class="page-title">{{ watchlist.name }}</h1>
-    <div class="members">
-      {% for m in members %}<span class="member{% if m == me %} me{% endif %}">{{ m.name }}{% if m == me %} (you){% endif %}</span>{% endfor %}
-    </div>
-  </div>
-  <button class="btn-wn light share-btn" type="button" data-share="{{ invite_url }}" data-share-title="Join my watchlist “{{ watchlist.name }}” on watchNext">Invite</button>
-</div>
+{% include 'lists/_list_head.html' %}
 
 {% if is_new %}
 <div class="panel invite-panel">
@@ -41,11 +33,10 @@
   <form method="post" action="{% url 'lists:add' watchlist.code %}" class="d-none" data-add-form>{% csrf_token %}<input type="hidden" name="imdb_id"></form>
 </div>
 
-<nav class="tabs" aria-label="Watchlist sections">
-  <a class="tab{% if tab == 'towatch' %} active{% endif %}" href="?tab=towatch">To watch <span>{{ counts.towatch }}</span></a>
-  <a class="tab{% if tab == 'matches' %} active{% endif %}" href="?tab=matches">💞 Matches <span>{{ counts.matches }}</span></a>
-  <a class="tab{% if tab == 'watched' %} active{% endif %}" href="?tab=watched">Watched <span>{{ counts.watched }}</span></a>
-</nav>
+{% if open_round %}
+<a class="hat-banner" href="{% url 'lists:hat' watchlist.code %}">🎩 A movie draw is open. <strong>Add your picks →</strong></a>
+{% endif %}
+{% include 'lists/_tabs.html' %}
 
 {% if tab == 'towatch' and counts.towatch %}
 <form method="post" action="{% url 'lists:pick' watchlist.code %}" class="pick-row">{% csrf_token %}

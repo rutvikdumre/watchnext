@@ -547,3 +547,73 @@ img { max-width: 100%; }
 .leave-row { text-align: center; margin-top: 28px; }
 .menu-emoji { width: 56px; height: 56px; flex: 0 0 auto; display: inline-flex; align-items: center; justify-content: center; font-size: 2.6rem; }
 @media (min-width: 992px) { .menu-emoji { width: 80px; height: 80px; font-size: 3.6rem; } }
+
+/* ---------- movie draw ---------- */
+.hat-banner { display: block; margin: 0 0 12px; padding: 12px 14px; border-radius: 12px; color: var(--text);
+  background: linear-gradient(135deg, rgba(178, 92, 214, 0.25), rgba(255, 82, 82, 0.18)); border: 1px solid rgba(178, 92, 214, 0.5); }
+.hat-banner:hover { color: var(--text); border-color: var(--purple); }
+.hat-status { background: var(--bg-2); border: 1px solid var(--line); border-radius: var(--radius); padding: 16px; }
+.hat-count { font-size: 1.05rem; margin-bottom: 8px; }
+.hat-count .big { font-size: 1.6rem; font-weight: 600; margin-right: 4px; }
+.my-picks { display: grid; gap: 8px; }
+.my-pick { display: flex; align-items: center; gap: 12px; background: var(--bg-2); border: 1px solid var(--line); border-radius: 12px; padding: 6px 6px 6px 8px; }
+.my-pick img { width: 40px; height: 60px; object-fit: cover; border-radius: 6px; background: var(--card); }
+.my-pick span { flex: 1 1 auto; font-weight: 600; min-width: 0; }
+.my-pick form { margin: 0; }
+.my-pick .text-btn { font-size: 1.1rem; padding: 10px 14px; }
+.quick-picks { display: flex; gap: 10px; overflow-x: auto; padding-bottom: 6px; margin: 0 -16px 8px; padding-left: 16px; padding-right: 16px; scrollbar-width: none; }
+.quick-picks::-webkit-scrollbar { display: none; }
+.quick-picks form { margin: 0; flex: 0 0 auto; }
+.quick-pick { width: 92px; background: none; border: 0; padding: 0; color: var(--text); text-align: left; cursor: pointer; font-family: inherit; }
+.quick-pick img { width: 92px; height: 138px; object-fit: cover; border-radius: 10px; background: var(--card); display: block; border: 2px solid transparent; transition: border-color 0.15s; }
+.quick-pick:hover img, .quick-pick:focus img { border-color: var(--red); }
+.quick-pick span { display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; font-size: 0.78rem; margin-top: 4px; line-height: 1.25; }
+.hat-list { list-style: none; padding: 0; margin: 0; display: grid; gap: 10px; }
+.hat-list li { display: flex; align-items: center; gap: 12px; background: var(--bg-2); border: 1px solid var(--line); border-radius: 12px; padding: 8px 12px 8px 8px; }
+.hat-list img { width: 48px; height: 72px; object-fit: cover; border-radius: 8px; background: var(--card); flex: 0 0 auto; }
+.hat-movie { flex: 1 1 auto; min-width: 0; }
+.hat-movie strong { display: block; line-height: 1.25; }
+.hat-movie .muted { font-size: 0.82rem; }
+.odds-bar { height: 6px; background: rgba(255, 255, 255, 0.08); border-radius: 999px; margin-top: 6px; overflow: hidden; }
+.odds-bar span { display: block; height: 100%; background: linear-gradient(90deg, var(--purple), var(--red)); border-radius: 999px; }
+.tickets { flex: 0 0 auto; text-align: right; font-size: 0.95rem; letter-spacing: -2px; }
+.tickets small { display: block; letter-spacing: 0; color: var(--muted); font-size: 0.78rem; }
+.draw-row { margin-top: 18px; text-align: center; }
+.draw-btn { width: 100%; min-height: 56px; font-size: 1.1rem; }
+@media (min-width: 576px) { .draw-btn { width: auto; padding: 0 36px; } }
+.draw-btn:disabled { opacity: 0.45; cursor: not-allowed; filter: grayscale(0.4); }
+.check { display: flex; align-items: center; gap: 10px; margin: 0 0 16px; font-size: 0.95rem; }
+.check input { width: 20px; height: 20px; accent-color: var(--red); }
+.start-draw select { display: block; width: 100%; margin-top: 6px; height: 48px; padding: 0 12px; border-radius: 10px; border: 1px solid var(--line); background: var(--bg); color: var(--text); font-size: 16px; }
+
+.reveal { background: linear-gradient(160deg, rgba(178, 92, 214, 0.18), rgba(255, 82, 82, 0.12)); border: 1px solid rgba(178, 92, 214, 0.45);
+  border-radius: 18px; padding: 16px; margin-bottom: 8px; scroll-margin-top: calc(var(--nav-h) + 12px); }
+.reel-window { position: relative; overflow: hidden; height: 0; margin: 0 -16px; transition: height 0.3s ease; }
+.reveal.spinning .reel-window, .reveal.done:not(.static) .reel-window { height: 230px; margin-bottom: 8px; }
+.reel { display: flex; gap: 12px; padding: 12px 0; will-change: transform; }
+.reel .cell { flex: 0 0 120px; text-align: center; transition: transform 0.4s ease, opacity 0.4s ease; }
+.reel .cell img { width: 120px; height: 180px; object-fit: cover; border-radius: 10px; background: var(--card); display: block; box-shadow: 0 8px 20px rgba(0, 0, 0, 0.45); }
+.reel .cell span { display: block; font-size: 0.72rem; color: var(--muted); margin-top: 4px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.reveal.done .reel .cell:not(.is-winner) { opacity: 0.3; }
+.reveal.done .reel .cell.is-winner { transform: scale(1.06); }
+.reveal.done .reel .cell.is-winner img { box-shadow: 0 0 0 3px var(--red), 0 12px 30px rgba(255, 82, 82, 0.45); }
+.reel-marker { position: absolute; top: 0; bottom: 0; left: 50%; width: 3px; margin-left: -1.5px; background: var(--red); border-radius: 3px; opacity: 0.9; }
+.reveal.done .reel-marker { opacity: 0; }
+.winner { display: flex; gap: 16px; align-items: center; opacity: 0; transform: translateY(8px); transition: opacity 0.5s ease 0.2s, transform 0.5s ease 0.2s; }
+.reveal.done .winner { opacity: 1; transform: none; }
+.reveal.static .winner { transition: none; }
+.winner img { width: 96px; height: 144px; object-fit: cover; border-radius: 10px; background: var(--card); flex: 0 0 auto; }
+.winner h2 { font-size: 1.4rem; font-weight: 600; margin: 0 0 4px; }
+.winner .muted { font-size: 0.88rem; margin: 0 0 12px; }
+.winner .btn-row .btn-wn { flex: 0 1 auto; min-height: 42px; padding: 8px 16px; }
+@media (max-width: 575.98px) { .winner { flex-direction: column; text-align: center; } .winner .btn-row { justify-content: center; } }
+.odds { margin-top: 14px; }
+.odds summary { cursor: pointer; color: var(--muted); font-size: 0.9rem; }
+.odds ul { list-style: none; padding: 0; margin: 8px 0 0; display: grid; gap: 6px; }
+.odds li { display: flex; justify-content: space-between; gap: 10px; font-size: 0.88rem; border-bottom: 1px solid var(--line); padding-bottom: 6px; }
+.history { list-style: none; padding: 0; margin: 0; display: grid; gap: 8px; }
+.history li { display: flex; gap: 12px; align-items: center; }
+.history img { width: 40px; height: 60px; object-fit: cover; border-radius: 6px; background: var(--card); }
+.history span span { display: block; font-size: 0.82rem; }
+.reveal.spinning .winner, .reveal.spinning .odds { display: none; }
+.reveal.done.collapsed:not(.static) .reel-window { height: 0; margin-bottom: 0; }

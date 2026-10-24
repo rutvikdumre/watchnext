@@ -1,0 +1,6 @@
+<nav class="tabs" aria-label="Watchlist sections">
+  <a class="tab{% if tab == 'towatch' %} active{% endif %}" href="{% url 'lists:detail' watchlist.code %}?tab=towatch">To watch{% if counts %} <span>{{ counts.towatch }}</span>{% endif %}</a>
+  <a class="tab{% if tab == 'matches' %} active{% endif %}" href="{% url 'lists:detail' watchlist.code %}?tab=matches">💞 Matches{% if counts %} <span>{{ counts.matches }}</span>{% endif %}</a>
+  <a class="tab{% if tab == 'hat' %} active{% endif %}" href="{% url 'lists:hat' watchlist.code %}">🎩 Movie draw{% if hat_count %} <span>{{ hat_count }}</span>{% endif %}</a>
+  <a class="tab{% if tab == 'watched' %} active{% endif %}" href="{% url 'lists:detail' watchlist.code %}?tab=watched">Watched{% if counts %} <span>{{ counts.watched }}</span>{% endif %}</a>
+</nav>

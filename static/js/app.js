@@ -204,8 +204,56 @@
       if (document.hidden) return;
       var typing = document.activeElement && document.activeElement.tagName === 'INPUT' && document.activeElement.value;
       fetch(cfg.state).then(function (r) { return r.json(); }).then(function (d) {
-        if (d.version !== seen && !typing) window.location.reload();
+        if (d.version !== seen && !typing && !window.WN_PAUSE_REFRESH) window.location.reload();
       }).catch(function () {});
     }, 8000);
   }
+})();
+
+// ---------------------------------------------------------------- movie draw reveal
+(function () {
+  'use strict';
+  var box = document.querySelector('[data-reveal]');
+  if (!box) return;
+  var data;
+  try { data = JSON.parse(box.getAttribute('data-reveal')); } catch (e) { return; }
+  var key = 'wn-reveal-' + data.round;
+  var seen = false;
+  try { seen = !!window.localStorage.getItem(key); } catch (e) { /* private mode */ }
+  var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if (seen || reduce || data.posters.length < 2) { box.classList.add('done', 'static'); return; }
+
+  // Build a long strip of random tickets that ends on the winner.
+  var reel = box.querySelector('.reel');
+  var win = data.posters[data.winner];
+  var strip = [];
+  var stop = 34;
+  for (var i = 0; i < stop; i++) strip.push(data.posters[Math.floor(Math.random() * data.posters.length)]);
+  strip.push(win);
+  for (var j = 0; j < 4; j++) strip.push(data.posters[Math.floor(Math.random() * data.posters.length)]);
+  reel.innerHTML = strip.map(function (p, k) {
+    var div = document.createElement('div');
+    div.textContent = p.title;
+    return '<div class="cell' + (k === stop ? ' is-winner' : '') + '"><img src="' + p.poster.replace(/"/g, '&quot;') +
+      '" alt=""><span>' + div.innerHTML + '</span></div>';
+  }).join('');
+
+  window.WN_PAUSE_REFRESH = true;
+  box.classList.add('spinning');
+  box.scrollIntoView({ block: 'start', behavior: 'smooth' });
+  var cell = reel.querySelector('.cell');
+  var step = cell.getBoundingClientRect().width + 12;
+  var windowWidth = box.querySelector('.reel-window').clientWidth;
+  var target = -(stop * step) + (windowWidth / 2 - (step - 12) / 2);
+  setTimeout(function () {
+    reel.style.transition = 'transform 4.6s cubic-bezier(0.12, 0.7, 0.12, 1)';
+    reel.style.transform = 'translateX(' + target + 'px)';
+  }, 350);
+  reel.addEventListener('transitionend', function () {
+    box.classList.remove('spinning');
+    box.classList.add('done');
+    window.WN_PAUSE_REFRESH = false;
+    try { window.localStorage.setItem(key, '1'); } catch (e) { /* ignore */ }
+    setTimeout(function () { box.classList.add('collapsed'); }, 1600);
+  }, { once: true });
 })();

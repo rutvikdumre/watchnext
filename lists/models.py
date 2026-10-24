@@ -65,3 +65,33 @@ class Vote(models.Model):
 
     class Meta:
         constraints = [models.UniqueConstraint(fields=['item', 'member'], name='one_vote_per_member')]
+
+
+class Round(models.Model):
+    """A movie draw: everyone puts picks in the hat, then one ticket wins."""
+    watchlist = models.ForeignKey(WatchList, on_delete=models.CASCADE, related_name='rounds')
+    started_by = models.ForeignKey(Member, null=True, blank=True, on_delete=models.SET_NULL, related_name='+')
+    picks_per_person = models.PositiveSmallIntegerField(default=3)
+    secret = models.BooleanField(default=False)
+    created_at = models.DateTimeField(auto_now_add=True)
+    drawn_at = models.DateTimeField(null=True, blank=True)
+    drawn_by = models.ForeignKey(Member, null=True, blank=True, on_delete=models.SET_NULL, related_name='+')
+    winner = models.ForeignKey('Ticket', null=True, blank=True, on_delete=models.SET_NULL, related_name='+')
+
+    class Meta:
+        ordering = ['-created_at']
+
+
+class Ticket(models.Model):
+    """One person's pick. The same movie picked by two people = two tickets."""
+    round = models.ForeignKey(Round, on_delete=models.CASCADE, related_name='tickets')
+    member = models.ForeignKey(Member, on_delete=models.CASCADE, related_name='tickets')
+    imdb_id = models.CharField(max_length=12)
+    title = models.CharField(max_length=300)
+    year = models.CharField(max_length=10, blank=True)
+    poster = models.CharField(max_length=500, blank=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        ordering = ['created_at']
+        constraints = [models.UniqueConstraint(fields=['round', 'member', 'imdb_id'], name='one_ticket_per_movie_per_member')]

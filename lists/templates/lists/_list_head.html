@@ -1,0 +1,9 @@
+<div class="wl-head">
+  <div>
+    <h1 class="page-title">{{ watchlist.name }}</h1>
+    <div class="members">
+      {% for m in members %}<span class="member{% if m == me %} me{% endif %}">{{ m.name }}{% if m == me %} (you){% endif %}</span>{% endfor %}
+    </div>
+  </div>
+  <button class="btn-wn light share-btn" type="button" data-share="{{ invite_url }}" data-share-title="Join my watchlist “{{ watchlist.name }}” on watchNext">Invite</button>
+</div>

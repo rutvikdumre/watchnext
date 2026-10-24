@@ -1,0 +1,123 @@
+{% extends 'main/base.html' %}
+{% block title %}Movie draw · {{ watchlist.name }} · watchNext{% endblock %}
+{% block content %}
+{% include 'lists/_list_head.html' %}
+{% include 'lists/_tabs.html' %}
+
+<div id="wl-items" data-state-url="{% url 'lists:state' watchlist.code %}" data-version="{{ version }}">
+
+{% if not round and last %}
+  {# ---------- result of the latest draw ---------- #}
+  <section class="reveal" id="reveal" data-reveal="{{ reveal }}">
+    <p class="eyebrow">🎩 The hat has spoken</p>
+    <div class="reel-window" aria-hidden="true"><div class="reel"></div><div class="reel-marker"></div></div>
+    <div class="winner">
+      <img src="{{ last_winner_movie.poster }}" alt="">
+      <div>
+        <h2>{{ last_winner_movie.title }} <span class="muted">{{ last_winner_movie.year }}</span></h2>
+        <p class="muted">Picked by {% for m in last_winner_movie.pickers %}{{ m.name }}{% if not forloop.last %} & {% endif %}{% endfor %} · {{ last_winner_movie.count }} of {{ last.tickets.count }} ticket{{ last.tickets.count|pluralize }} ({{ last_winner_movie.pct }}% chance)</p>
+        <div class="btn-row">
+          <a class="btn-wn" href="/detail/{{ last_winner_movie.imdb_id }}" data-loading>Details</a>
+          <a class="btn-wn ghost" href="{% url 'lists:detail' watchlist.code %}">It's on your list</a>
+        </div>
+      </div>
+    </div>
+    <details class="odds">
+      <summary>See everyone's picks</summary>
+      <ul>{% for m in last_movies %}<li><span>{{ m.title }}</span><span class="muted">{{ m.count }} ticket{{ m.count|pluralize }} · {% for p in m.pickers %}{{ p.name }}{% if not forloop.last %}, {% endif %}{% endfor %}</span></li>{% endfor %}</ul>
+    </details>
+  </section>
+{% endif %}
+
+{% if round %}
+  {# ---------- open draw ---------- #}
+  <section class="hat-status">
+    <div class="hat-count"><span class="big">🎟️ {{ ticket_count }}</span> ticket{{ ticket_count|pluralize }} in the hat</div>
+    <div class="members">
+      {% for pm in per_member %}<span class="member{% if pm.member == me %} me{% endif %}">{{ pm.member.name }} {{ pm.count }}/{{ round.picks_per_person }}</span>{% endfor %}
+    </div>
+    <p class="hint">Everyone picks up to {{ round.picks_per_person }} movie{{ round.picks_per_person|pluralize }}. Each pick is a ticket, so a movie two people pick gets two tickets and double the odds.{% if round.secret %} Picks stay secret until the draw 🤫{% endif %}</p>
+  </section>
+
+  <h2 class="section-title">Your picks <span class="muted" style="font-weight:400;font-size:0.95rem">{{ picks_left }} left</span></h2>
+  {% if my_picks %}
+  <div class="my-picks">
+    {% for t in my_picks %}
+    <div class="my-pick">
+      <img src="{{ t.poster }}" alt="">
+      <span>{{ t.title }}</span>
+      <form method="post" action="{% url 'lists:hat_unpick' watchlist.code t.id %}">{% csrf_token %}<button class="text-btn muted" aria-label="Take {{ t.title }} out of the hat">✕</button></form>
+    </div>
+    {% endfor %}
+  </div>
+  {% endif %}
+
+  {% if picks_left %}
+  <div class="search-box add-box" data-autocomplete="add">
+    <form method="get" action="/search/" role="search">
+      <input type="search" name="q" placeholder="Put a movie in the hat…" aria-label="Put a movie in the hat" aria-autocomplete="list" aria-expanded="false">
+    </form>
+    <ul class="ac-list" hidden></ul>
+    <form method="post" action="{% url 'lists:hat_pick' watchlist.code %}" class="d-none" data-add-form>{% csrf_token %}<input type="hidden" name="imdb_id"></form>
+  </div>
+  {% if from_list %}
+  <p class="hint" style="margin:0 0 8px">Or tap one from your list:</p>
+  <div class="quick-picks">
+    {% for item in from_list %}
+    <form method="post" action="{% url 'lists:hat_pick' watchlist.code %}">{% csrf_token %}
+      <input type="hidden" name="imdb_id" value="{{ item.imdb_id }}">
+      <button class="quick-pick" type="submit" title="Put {{ item.title }} in the hat"><img src="{{ item.poster }}" alt=""><span>{{ item.title }}</span></button>
+    </form>
+    {% endfor %}
+  </div>
+  {% endif %}
+  {% endif %}
+
+  <h2 class="section-title">In the hat</h2>
+  {% if hide_picks %}
+    <div class="empty-state">🤫 Picks are secret until the draw. {{ ticket_count }} ticket{{ ticket_count|pluralize }} so far.</div>
+  {% elif movies %}
+    <ul class="hat-list">
+      {% for m in movies %}
+      <li>
+        <img src="{{ m.poster }}" alt="">
+        <div class="hat-movie">
+          <strong>{{ m.title }}</strong>
+          <span class="muted">{% for p in m.pickers %}{{ p.name }}{% if not forloop.last %}, {% endif %}{% endfor %}</span>
+          <div class="odds-bar"><span style="width: {{ m.pct }}%"></span></div>
+        </div>
+        <div class="tickets">{% for t in m.tickets %}🎟️{% endfor %}<small>{{ m.pct }}%</small></div>
+      </li>
+      {% endfor %}
+    </ul>
+  {% else %}
+    <div class="empty-state">The hat is empty. Add your picks above!</div>
+  {% endif %}
+
+  <form method="post" action="{% url 'lists:hat_draw' watchlist.code %}" class="draw-row" data-confirm="Draw now? Picks are locked once the hat is drawn.">{% csrf_token %}
+    <button class="btn-wn draw-btn" type="submit" {% if movies|length < 2 and not hide_picks %}disabled{% endif %}>🎲 Draw from the hat</button>
+    {% if movies|length < 2 and not hide_picks %}<p class="hint">Needs at least two different movies.</p>{% endif %}
+  </form>
+{% else %}
+  {# ---------- start a new draw ---------- #}
+  <form method="post" action="{% url 'lists:hat_start' watchlist.code %}" class="panel start-draw">{% csrf_token %}
+    <h2 class="section-title" style="margin-top:0">{% if last %}Start another draw{% else %}🎩 Movie draw{% endif %}</h2>
+    {% if not last %}<p class="hint" style="margin:0 0 14px">Everyone puts movies in the hat, then ranzol draws one. A movie picked by two people gets two tickets.</p>{% endif %}
+    <label class="field">Picks per person
+      <select name="picks_per_person">
+        <option value="1">1</option><option value="2">2</option><option value="3" selected>3</option><option value="5">5</option>
+      </select>
+    </label>
+    <label class="check"><input type="checkbox" name="secret"> Keep picks secret until the draw</label>
+    <button class="btn-wn" type="submit">Start the draw</button>
+  </form>
+{% endif %}
+
+{% if history %}
+  <h2 class="section-title">Past draws</h2>
+  <ul class="history">
+    {% for r in history %}<li><img src="{{ r.winner.poster }}" alt=""><span><strong>{{ r.winner.title }}</strong><span class="muted">{{ r.drawn_at|date:"M j" }} · picked by {{ r.winner.member.name }}</span></span></li>{% endfor %}
+  </ul>
+{% endif %}
+</div>
+{% endblock %}

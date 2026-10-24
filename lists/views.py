@@ -131,6 +131,7 @@ def detail(request, code):
     to_watch = sorted([i for i in items if not i.watched_at], key=lambda i: (-i.score, -i.added_at.timestamp()))
     matches = [i for i in to_watch if i.is_match]
     watched = sorted([i for i in items if i.watched_at], key=lambda i: i.watched_at, reverse=True)
+    open_round = watchlist.rounds.filter(drawn_at__isnull=True).first()
     pick = None
     if request.GET.get('pick'):
         pick = next((i for i in to_watch if str(i.id) == request.GET['pick']), None)
@@ -140,6 +141,8 @@ def detail(request, code):
         'counts': {'towatch': len(to_watch), 'matches': len(matches), 'watched': len(watched)},
         'invite_url': request.build_absolute_uri(reverse('lists:join', args=[code])),
         'is_new': request.GET.get('new') == '1', 'pick': pick,
+        'open_round': open_round,
+        'hat_count': open_round.tickets.count() if open_round else 0,
         'version': watchlist.updated_at.isoformat(),
     })
 
