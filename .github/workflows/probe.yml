@@ -1,8 +1,33 @@
 name: imdb-probe
 on: push
 jobs:
-  probe:
+  postgres:
     runs-on: ubuntu-latest
+    services:
+      postgres:
+        image: postgres:16
+        env: {POSTGRES_PASSWORD: pw, POSTGRES_DB: watchnext}
+        ports: ['5432:5432']
+        options: --health-cmd pg_isready --health-interval 5s --health-timeout 5s --health-retries 10
+    env:
+      DATABASE_URL: postgresql://postgres:pw@localhost:5432/watchnext?sslmode=disable
+      DEBUG: 'False'
+      SECRET_KEY: ci
     steps:
       - uses: actions/checkout@v4
-      - run: python3 probe.py
+        with: {ref: render-deploy}
+      - uses: actions/setup-python@v5
+        with: {python-version: '3.13'}
+      - run: ./build.sh 2>&1 | grep -v "already satisfied" | tail -30
+      - run: python manage.py test main lists 2>&1 | tail -15
+      - name: Run like Render and hit pages
+        run: |
+          gunicorn watchnext.wsgi --timeout 120 --bind 127.0.0.1:10000 > gu.log 2>&1 &
+          sleep 6
+          for u in / /index/ /lists/ /topcharts/Drama "/search/?q=interstelar" "/api/suggest?q=interstelar" /detail/tt1375666 /suggestions/tt1187043; do
+            echo "$(curl -s -o /dev/null -m 90 -w '%{http_code} %{time_total}s' -H 'Host: x.onrender.com' "http://127.0.0.1:10000$u") $u"
+          done
+          # Full watchlist + draw flow against Postgres
+          J=jar; T=$(curl -s -c $J -b $J -H 'Host: x.onrender.com' http://127.0.0.1:10000/lists/ | grep -o 'csrfmiddlewaretoken" value="[^"]*' | head -1 | sed 's/.*value="//')
+          curl -s -o /dev/null -w 'create %{http_code} -> %{redirect_url}\n' -c $J -b $J -H 'Host: x.onrender.com' -H 'Referer: http://x.onrender.com/lists/' -d "csrfmiddlewaretoken=$T&name=CI&your_name=Bot&imdb_id=tt1375666" http://127.0.0.1:10000/lists/new
+          ps aux | grep -c "[g]unicorn"; echo '--- gunicorn log ---'; tail -30 gu.log
