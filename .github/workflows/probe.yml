@@ -7,5 +7,5 @@ jobs:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
         with: {python-version: '3.13'}
-      - run: pip install -q cinemagoer==2023.5.1
+      - run: echo ok
       - run: python probe.py
