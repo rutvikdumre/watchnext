@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/3.1/ref/settings/
 """
 
 import os
+import re
 from pathlib import Path
 
 import dj_database_url
@@ -124,7 +125,10 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.1/howto/static-files/
 
-DATABASES['default'].update(dj_database_url.config(conn_max_age=600, conn_health_checks=True))
+# Accept the URL even if it was pasted with quotes or as Neon's "psql '...'" command.
+_db_url = re.search(r'postgres(?:ql)?://[^\s\'"]+', os.environ.get('DATABASE_URL', ''))
+if _db_url:
+    DATABASES['default'] = dj_database_url.parse(_db_url.group(0), conn_max_age=600, conn_health_checks=True)
 
 # Render terminates HTTPS in front of the app; trust its header so invite links use https.
 SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
@@ -144,3 +148,16 @@ LOGIN_REDIRECT_URL = 'index'
 
 ALLOWED_HOSTS = ['127.0.0.1', 'localhost', '.onrender.com', '.up.railway.app']
 CSRF_TRUSTED_ORIGINS = ['https://*.onrender.com', 'https://*.up.railway.app']
+
+# Print errors (with tracebacks) to stdout so they show up in Render's Logs tab.
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'formatters': {'plain': {'format': '%(levelname)s %(name)s: %(message)s'}},
+    'handlers': {'console': {'class': 'logging.StreamHandler', 'formatter': 'plain'}},
+    'root': {'handlers': ['console'], 'level': 'WARNING'},
+    'loggers': {
+        'django': {'handlers': ['console'], 'level': 'INFO', 'propagate': False},
+        'django.request': {'handlers': ['console'], 'level': 'ERROR', 'propagate': False},
+    },
+}
